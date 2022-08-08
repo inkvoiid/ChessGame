@@ -1,0 +1,10 @@
+# Made in Blockbench 4.3.1
+newmtl m_2
+map_Kd chessboard.png 
+newmtl m_3
+map_Kd grass1.png 
+newmtl m_4
+map_Kd grass2.png 
+newmtl m_5
+map_Kd vines1.png 
+newmtl none
