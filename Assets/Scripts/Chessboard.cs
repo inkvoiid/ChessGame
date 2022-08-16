@@ -12,6 +12,7 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private float deathSize = 0.5f;
     [SerializeField] private float deathSpacing = 0.3f;
     [SerializeField] private float dragOffset = 1.0f;
+    [SerializeField] private GameObject victoryScreen;
 
     [Header("Prefabs and Materials")]
     [SerializeField] private GameObject[] prefabs;
@@ -298,6 +299,60 @@ public class Chessboard : MonoBehaviour
         availableMoves.Clear();
     }
 
+    // Checkmate
+    private void Checkmate(int team)
+    {
+        DisplayVictory(team);
+    }
+
+    private void DisplayVictory(int winningTeam)
+    {
+        victoryScreen.SetActive(true);
+        victoryScreen.transform.GetChild(winningTeam).gameObject.SetActive(true);
+    }
+
+    public void OnResetButton()
+    {
+        // UI
+        victoryScreen.transform.GetChild(0).gameObject.SetActive(false);
+        victoryScreen.transform.GetChild(1).gameObject.SetActive(false);
+        victoryScreen.SetActive(false);
+
+        // Field reset
+        currentlyDragging = null;
+        availableMoves.Clear();
+
+        // Clean up
+        for (int x = 0; x < tileCountX; x++)
+        {
+            for (int y = 0; y < tileCountY; y++)
+            {
+                if (chessPieces[x, y] != null)
+                    Destroy(chessPieces[x, y].gameObject);
+
+                chessPieces[x, y] = null;
+            }
+        }
+
+        for (int i = 0; i < deadWhitePieces.Count; i++)
+            Destroy(deadWhitePieces[i].gameObject);
+
+        for (int i = 0; i < deadBlackPieces.Count; i++)
+            Destroy(deadBlackPieces[i].gameObject);
+
+        deadWhitePieces.Clear();
+        deadBlackPieces.Clear();
+
+        SpawnAllPieces();
+        PositionAllPieces();
+        isWhiteTurn = true;
+    }
+
+    public void OnExitButton()
+    {
+        Application.Quit();
+    }
+
     // Operations
     private bool ContainsValidMove(ref List<Vector2Int> moves, Vector2 pos)
     {
@@ -328,6 +383,9 @@ public class Chessboard : MonoBehaviour
             // If it's the enemy team
             if (otherPiece.team == 0)
             {
+                if (otherPiece.type == ChessPieceType.King)
+                    Checkmate(1);
+
                 deadWhitePieces.Add(otherPiece);
                 otherPiece.SetScale(Vector3.one * deathSize);
                 otherPiece.SetPosition(
@@ -338,6 +396,8 @@ public class Chessboard : MonoBehaviour
             }
             else
             {
+                if (otherPiece.type == ChessPieceType.King)
+                    Checkmate(0);
                 deadBlackPieces.Add(otherPiece);
                 otherPiece.SetScale(Vector3.one * deathSize);
                 otherPiece.SetPosition(
