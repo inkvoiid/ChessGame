@@ -61,14 +61,14 @@ public class Chessboard : MonoBehaviour
             Vector2Int hitPosition = LookupTileIndex(info.transform.gameObject);
 
             // If we're hovering a tile after not hovering any tiles
-            if(currentHover == -Vector2Int.one)
+            if (currentHover == -Vector2Int.one)
             {
                 currentHover = hitPosition;
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Chessboard Tile Hover");
             }
 
             // If we were already hovering a tile, change the previous one
-            if(currentHover != hitPosition)
+            if (currentHover != hitPosition)
             {
                 tiles[currentHover.x, currentHover.y].layer = (ContainsValidMove(ref availableMoves, currentHover)) ? LayerMask.NameToLayer("Chessboard Tile Highlight") : LayerMask.NameToLayer("Chessboard Tile");
                 currentHover = hitPosition;
@@ -108,7 +108,7 @@ public class Chessboard : MonoBehaviour
         }
         else
         {
-            if(currentHover != -Vector2Int.one)
+            if (currentHover != -Vector2Int.one)
             {
                 tiles[currentHover.x, currentHover.y].layer = (ContainsValidMove(ref availableMoves, currentHover)) ? LayerMask.NameToLayer("Chessboard Tile Highlight") : LayerMask.NameToLayer("Chessboard Tile");
                 currentHover = -Vector2Int.one;
@@ -127,7 +127,7 @@ public class Chessboard : MonoBehaviour
         {
             Plane horizonPlane = new Plane(Vector3.up, Vector3.up * yOffset);
             float distance = 0.0f;
-            if(horizonPlane.Raycast(ray, out distance))
+            if (horizonPlane.Raycast(ray, out distance))
             {
                 currentlyDragging.SetPosition(ray.GetPoint(distance) + Vector3.up * dragOffset);
             }
@@ -153,7 +153,7 @@ public class Chessboard : MonoBehaviour
 
     private GameObject GenerateSingleTile(float tileSize, int x, int y)
     {
-        GameObject tileObject = new GameObject(x+ ", " + y);
+        GameObject tileObject = new GameObject(x + ", " + y);
         tileObject.transform.parent = transform;
 
         Mesh mesh = new Mesh();
@@ -162,9 +162,9 @@ public class Chessboard : MonoBehaviour
 
         Vector3[] vertices = new Vector3[4];
         vertices[0] = new Vector3(x * tileSize, yOffset, y * tileSize) - bounds;
-        vertices[1] = new Vector3(x * tileSize, yOffset, (y+1) * tileSize) - bounds;
-        vertices[2] = new Vector3((x+1) * tileSize, yOffset, y * tileSize) - bounds;
-        vertices[3] = new Vector3((x+1) * tileSize, yOffset, (y + 1) * tileSize) - bounds;
+        vertices[1] = new Vector3(x * tileSize, yOffset, (y + 1) * tileSize) - bounds;
+        vertices[2] = new Vector3((x + 1) * tileSize, yOffset, y * tileSize) - bounds;
+        vertices[3] = new Vector3((x + 1) * tileSize, yOffset, (y + 1) * tileSize) - bounds;
 
         int[] triangles = new int[] { 0, 1, 2, 1, 3, 2 };
 
@@ -219,7 +219,7 @@ public class Chessboard : MonoBehaviour
 
         Material[] teamMaterial;
 
-        if(piece.team == 0)
+        if (piece.team == 0)
         {
             teamMaterial = basicWhiteMaterials;
         }
@@ -267,7 +267,7 @@ public class Chessboard : MonoBehaviour
         {
             for (int y = 0; y < tileCountY; y++)
             {
-                if(chessPieces[x,y] != null)
+                if (chessPieces[x, y] != null)
                 {
                     PositionSinglePiece(x, y, true);
                 }
@@ -277,9 +277,9 @@ public class Chessboard : MonoBehaviour
 
     private void PositionSinglePiece(int x, int y, bool force = false)
     {
-        chessPieces[x,y].currentX = x;
-        chessPieces[x,y].currentY = y;
-        chessPieces[x,y].SetPosition(GetTileCenter(x, y), force);
+        chessPieces[x, y].currentX = x;
+        chessPieces[x, y].currentY = y;
+        chessPieces[x, y].SetPosition(GetTileCenter(x, y), force);
     }
     private Vector3 GetTileCenter(int x, int y)
     {

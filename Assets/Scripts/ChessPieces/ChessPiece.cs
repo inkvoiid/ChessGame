@@ -24,7 +24,7 @@ public enum ChessPieceType
 
     private void Start()
     {
-        transform.rotation = Quaternion.Euler((team == 0) ? Vector3.zero : new Vector3(0, 180, 0));
+        transform.rotation = Quaternion.Euler((team == 1) ? Vector3.zero : new Vector3(0, 180, 0));
     }
 
     private void Update()
