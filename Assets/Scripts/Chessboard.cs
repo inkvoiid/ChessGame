@@ -2,6 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SpecialMove
+{
+    None = 0,
+    EnPassant,
+    Castling,
+    Promotion
+}
+
 public class Chessboard : MonoBehaviour
 {
     [Header("Art related")]
@@ -21,9 +29,12 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private Material[] basicWhiteMaterials;
     [SerializeField] private Material[] basicBlackMaterials;
 
+    [SerializeField] private Material[] glassWhiteMaterials;
+    [SerializeField] private Material[] glassBlackMaterials;
+
     // Logic
     private ChessPiece[,] chessPieces;
-    private ChessPiece currentlyDragging;
+    public static ChessPiece currentlyDragging;
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
     private List<ChessPiece> deadWhitePieces = new List<ChessPiece>();
     private List<ChessPiece> deadBlackPieces = new List<ChessPiece>();
@@ -34,6 +45,10 @@ public class Chessboard : MonoBehaviour
     private Vector2Int currentHover;
     private Vector3 bounds;
     private bool isWhiteTurn;
+    private SpecialMove specialMove;
+    private List<Vector2Int[]> moveList = new List<Vector2Int[]>();
+
+    public static bool amMovingPiece;
 
     private void Awake()
     {
@@ -80,6 +95,8 @@ public class Chessboard : MonoBehaviour
             {
                 if (chessPieces[hitPosition.x, hitPosition.y] != null)
                 {
+                    amMovingPiece = true;
+
                     // Is it our turn?
                     if ((chessPieces[hitPosition.x, hitPosition.y].team == 0 && isWhiteTurn) || (chessPieces[hitPosition.x, hitPosition.y].team == 1 && !isWhiteTurn))
                     {
@@ -108,6 +125,8 @@ public class Chessboard : MonoBehaviour
         }
         else
         {
+            amMovingPiece = false;
+
             if (currentHover != -Vector2Int.one)
             {
                 tiles[currentHover.x, currentHover.y].layer = (ContainsValidMove(ref availableMoves, currentHover)) ? LayerMask.NameToLayer("Chessboard Tile Highlight") : LayerMask.NameToLayer("Chessboard Tile");
