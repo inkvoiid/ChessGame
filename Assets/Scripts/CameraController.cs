@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CameraController : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class CameraController : MonoBehaviour
 
     private float rotationX = 60.0f;
     private float rotationY = 0.0f;
+
+    private bool isTopDown = false;
+    private Vector3 lastPos = Vector3.zero;
 
     private void Start()
     {
@@ -17,13 +21,38 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0) && !Chessboard.amMovingPiece && Chessboard.currentlyDragging == null)
+        if (Input.GetMouseButton(0) && !Chessboard.amMovingPiece && Chessboard.currentlyDragging == null && !isTopDown)
         {
             rotationX = speed * -Input.GetAxis("Mouse Y");
             rotationY = speed * Input.GetAxis("Mouse X");
 
-            transform.eulerAngles +=  new Vector3(rotationX, rotationY, 0);
+            rotationX = Mathf.Clamp(transform.eulerAngles.x + rotationX, -90f, 90f);
+            rotationY = transform.eulerAngles.y + rotationY;
 
+            transform.eulerAngles = new Vector3(rotationX, rotationY, 0);
+
+        }
+
+        if (Input.mouseScrollDelta.y > 0 || Input.mouseScrollDelta.y < 0 && !Chessboard.amMovingPiece && Chessboard.currentlyDragging == null)
+        {
+            Chessboard.currentCamera.fieldOfView -= Input.mouseScrollDelta.y + Time.deltaTime * 10;
+        }
+    }
+
+    public void OnTopDownButton()
+    {
+        if(isTopDown)
+        {
+            isTopDown = false;
+            transform.eulerAngles = lastPos;
+            GameObject.Find("ToggleTopDown").GetComponentInChildren<TextMeshProUGUI>().text = "Top Down View";
+        }
+        else
+        {
+            isTopDown = true;
+            lastPos = transform.eulerAngles;
+            transform.eulerAngles = new Vector3(90, 0, 0);
+            GameObject.Find("ToggleTopDown").GetComponentInChildren<TextMeshProUGUI>().text = "Perspective View";
         }
     }
 }

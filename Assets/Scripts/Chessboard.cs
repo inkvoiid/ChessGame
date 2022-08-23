@@ -41,7 +41,7 @@ public class Chessboard : MonoBehaviour
     private const int tileCountX = 8;
     private const int tileCountY = 8;
     private GameObject[,] tiles;
-    private Camera currentCamera;
+    public static Camera currentCamera;
     private Vector2Int currentHover;
     private Vector3 bounds;
     private bool isWhiteTurn;
