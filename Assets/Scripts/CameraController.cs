@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0) && !Chessboard.amMovingPiece && Chessboard.currentlyDragging == null && !isTopDown)
+        if (Input.GetMouseButton(0) && Chessboard.currentlyDragging == null && !isTopDown)
         {
             rotationX = speed * -Input.GetAxis("Mouse Y");
             rotationY = speed * Input.GetAxis("Mouse X");
@@ -33,9 +33,9 @@ public class CameraController : MonoBehaviour
 
         }
 
-        if (Input.mouseScrollDelta.y > 0 || Input.mouseScrollDelta.y < 0 && !Chessboard.amMovingPiece && Chessboard.currentlyDragging == null)
+        if (Input.mouseScrollDelta.y > 0 || Input.mouseScrollDelta.y < 0 && Chessboard.currentlyDragging == null)
         {
-            Chessboard.currentCamera.fieldOfView -= Input.mouseScrollDelta.y + Time.deltaTime * 10;
+            Chessboard.getCurrentCamera().fieldOfView -= Input.mouseScrollDelta.y + Time.deltaTime * 10;
         }
     }
 

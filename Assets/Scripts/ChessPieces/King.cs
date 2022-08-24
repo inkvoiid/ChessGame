@@ -82,4 +82,124 @@ public class King : ChessPiece
 
         return r;
     }
+
+    // Added reference to custom ChessPieceType List so that I can find if any rooks have moved for castling
+    public override SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> moveList, ref List<Vector2Int> availableMoves, Vector2Int boardDimensions)
+    {
+        SpecialMove r = SpecialMove.None;
+        int teamY = (team == 0) ? 0 : boardDimensions[1]-1;
+
+        var kingMove = moveList.Find(m => m[0].x == startingPos.x && m[0].y == startingPos.y);
+
+        // Up
+
+        if (kingMove == null)
+        {
+            for (int i = currentY + 1; i < boardDimensions.y; i++)
+            {
+                if (board[currentX, i] != null)
+                {
+                    if (board[currentX, i].type == ChessPieceType.Rook && board[currentX, i].team == team)
+                    {
+                        if (board[currentX, i].startingPos.x == currentX && board[currentX, i].startingPos.y == i)
+                        {
+                            var topRook = moveList.Find(m => m[0].x == currentX && m[0].y == i);
+                            if (topRook == null)
+                            {
+                                availableMoves.Add(new Vector2Int(currentX, i - 1));
+                                r = SpecialMove.Castling;
+                            }
+                        }
+                        break;
+                    }
+
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // Down
+            for (int i = currentY - 1; i >= 0; i--)
+            {
+                if (board[currentX, i] != null)
+                {
+                    if (board[currentX, i].type == ChessPieceType.Rook && board[currentX, i].team == team)
+                    {
+                        if (board[currentX, i].startingPos.x == currentX && board[currentX, i].startingPos.y == i)
+                        {
+                            var bottomRook = moveList.Find(m => m[0].x == currentX && m[0].y == i);
+                            if (bottomRook == null)
+                            {
+                                availableMoves.Add(new Vector2Int(currentX, i + 1));
+                                r = SpecialMove.Castling;
+                            }
+
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // Left
+            for (int i = currentX - 1; i >= 0; i--)
+            {
+                if (board[i, currentY] != null)
+                {
+                    if (board[i, currentY].type == ChessPieceType.Rook && board[i, currentY].team == team)
+                    {
+                        if (board[i, currentY].startingPos.x == i && board[i, currentY].startingPos.y == currentY)
+                        {
+                            var leftRook = moveList.Find(m => m[0].x == i && m[0].y == currentY);
+                            if (leftRook == null)
+                            {
+                                availableMoves.Add(new Vector2Int(i + 1, currentY));
+                                r = SpecialMove.Castling;
+                            }
+
+                        }
+                        break;
+                    }
+
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // Right
+            for (int i = currentX + 1; i < boardDimensions.x; i++)
+            {
+                if (board[i, currentY] != null)
+                {
+                    if (board[i, currentY].type == ChessPieceType.Rook && board[i, currentY].team == team)
+                    {
+                        if (board[i, currentY].startingPos.x == i && board[i, currentY].startingPos.y == currentY)
+                        {
+                            var rightRook = moveList.Find(m => m[0].x == i && m[0].y == currentY);
+                            if (rightRook == null)
+                            {
+                                availableMoves.Add(new Vector2Int(i - 1, currentY));
+                                r = SpecialMove.Castling;
+                            }
+                        }
+                        break;
+                    }
+
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return r;
+    }
 }

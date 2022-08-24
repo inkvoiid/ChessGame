@@ -17,10 +17,14 @@ public enum ChessPieceType
     public int team;
     public int currentX;
     public int currentY;
+    public Vector2Int startingPos;
     public ChessPieceType type;
 
     private Vector3 desiredPosition;
     private Vector3 desiredScale = Vector3.one;
+
+    public static List<Vector2Int> allWhiteRookStartingPos;
+    public static List<Vector2Int> allBlackRookStartingPos;
 
     private void Start()
     {
@@ -47,6 +51,16 @@ public enum ChessPieceType
         r.Add(new Vector2Int(4, 4));
 
         return r;
+    }
+
+    public virtual SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> moveList, ref List<Vector2Int> availableMoves)
+    {
+        return SpecialMove.None;
+    }
+
+    public virtual SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> moveList, ref List<Vector2Int> availableMoves, Vector2Int boardDimensions)
+    {
+        return SpecialMove.None;
     }
 
     public virtual void SetPosition(Vector3 position, bool force = false)           // Virtual allows the Method to be overriden in derived classes using override - TIL (11/8/22)
