@@ -49,6 +49,12 @@ public class Pawn : ChessPiece
     {
         int direction = (team == 0) ? 1 : -1;
 
+        // Promotion
+        if ((team == 0 && currentY == boardDimensions[1] - 2) || (team == 1 && currentY == 1))
+        {
+            return SpecialMove.Promotion;
+        }
+
         // En passant
         if (moveList.Count > 0)
         {
@@ -76,12 +82,6 @@ public class Pawn : ChessPiece
                     }
                 }
             }
-        }
-
-        // Promotion
-        if((team == 0 && currentY == boardDimensions[1] -2) || team == 1 && currentY == 1)
-        {
-
         }
 
         return SpecialMove.None;
