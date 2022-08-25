@@ -106,7 +106,7 @@ public class King : ChessPiece
                             var topRook = moveList.Find(m => m[0].x == currentX && m[0].y == i);
                             if (topRook == null)
                             {
-                                availableMoves.Add(new Vector2Int(currentX, i - 1));
+                                availableMoves.Add(new Vector2Int(currentX, currentY + 2));
                                 r = SpecialMove.Castling;
                             }
                         }
@@ -132,7 +132,7 @@ public class King : ChessPiece
                             var bottomRook = moveList.Find(m => m[0].x == currentX && m[0].y == i);
                             if (bottomRook == null)
                             {
-                                availableMoves.Add(new Vector2Int(currentX, i + 1));
+                                availableMoves.Add(new Vector2Int(currentX, currentY - 2));
                                 r = SpecialMove.Castling;
                             }
 
@@ -158,7 +158,7 @@ public class King : ChessPiece
                             var leftRook = moveList.Find(m => m[0].x == i && m[0].y == currentY);
                             if (leftRook == null)
                             {
-                                availableMoves.Add(new Vector2Int(i + 1, currentY));
+                                availableMoves.Add(new Vector2Int(currentX - 2, currentY));
                                 r = SpecialMove.Castling;
                             }
 
@@ -185,7 +185,7 @@ public class King : ChessPiece
                             var rightRook = moveList.Find(m => m[0].x == i && m[0].y == currentY);
                             if (rightRook == null)
                             {
-                                availableMoves.Add(new Vector2Int(i - 1, currentY));
+                                availableMoves.Add(new Vector2Int(currentX + 2, currentY));
                                 r = SpecialMove.Castling;
                             }
                         }

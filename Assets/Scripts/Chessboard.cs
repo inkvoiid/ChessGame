@@ -252,14 +252,6 @@ public class Chessboard : MonoBehaviour
         else if (piece.type == ChessPieceType.Rook)
         {
             piece.GetComponent<MeshRenderer>().material = teamMaterial[1];
-            //if (team == 0)
-            //{
-            //    ChessPiece.allWhiteRookStartingPos.Add(new Vector2Int(piece.currentX, piece.currentY));
-            //}
-            //else
-            //{
-            //    ChessPiece.allBlackRookStartingPos.Add(new Vector2Int(piece.currentX, piece.currentY));
-            //}
         }
         else if (piece.type == ChessPieceType.Knight)
         {
@@ -424,53 +416,76 @@ public class Chessboard : MonoBehaviour
         {
             Vector2Int[] lastMove = moveList[moveList.Count - 1];
 
+            int lastMoveDirectionX = lastMove[0].x - lastMove[1].x;
+            int lastMoveDirectionY = lastMove[0].y - lastMove[1].y;
 
-            //Top Rook
-            if (lastMove[1].y != tileCountY - 1 && chessPieces[lastMove[1].x, lastMove[1].y + 1] != null) // Check the King isn't the furthest on the top and that there is a rook there to query
+            //Left rook
+            if(lastMoveDirectionX > 0)
             {
-                if (chessPieces[lastMove[1].x, lastMove[1].y + 1].type == ChessPieceType.Rook && chessPieces[lastMove[1].x, lastMove[1].y + 1].team == chessPieces[lastMove[1].x, lastMove[1].y].team)
+                for (int x = lastMove[1].x - 1; x >= 0; x--)
                 {
-                    ChessPiece rook = chessPieces[lastMove[1].x, lastMove[1].y + 1]; // Get the piece above the King that just moved and store it
-                    chessPieces[lastMove[1].x, lastMove[1].y - 1] = rook; // Set the rook to the tile on the bottom of the King
-                    PositionSinglePiece(lastMove[1].x, lastMove[1].y - 1); // Actually move the physical rook
-                    chessPieces[lastMove[1].x, lastMove[1].y + 1] = null; // Clear the tile that the rook moved from
+                    if (chessPieces[x, lastMove[1].y] != null)
+                    {
+                        if (chessPieces[x, lastMove[1].y].type == ChessPieceType.Rook && chessPieces[x, lastMove[1].y].team == chessPieces[lastMove[1].x, lastMove[1].y].team)
+                        {
+                            ChessPiece rook = chessPieces[x, lastMove[1].y]; // Get the piece to the left of the King that just moved and store it
+                            chessPieces[lastMove[1].x + 1, lastMove[1].y] = rook; // Set the rook to the tile on the right of the King
+                            PositionSinglePiece(lastMove[1].x + 1, lastMove[1].y); // Actually move the physical rook
+                            chessPieces[x, lastMove[1].y] = null; // Clear the tile that the rook moved from
+                        }
+                    }
                 }
             }
-
-            //Bottom Rook
-            else if (lastMove[1].y > 0 && chessPieces[lastMove[1].x, lastMove[1].y - 1] != null) // Check the King isn't the furthest on the bottom and that there is a rook there to query
+            //Right rook
+            else if(lastMoveDirectionX < 0)
             {
-                if (chessPieces[lastMove[1].x, lastMove[1].y - 1].type == ChessPieceType.Rook && chessPieces[lastMove[1].x, lastMove[1].y - 1].team == chessPieces[lastMove[1].x, lastMove[1].y].team)
+                for (int x = lastMove[1].x + 1; x < tileCountX; x++)
                 {
-                    ChessPiece rook = chessPieces[lastMove[1].x, lastMove[1].y - 1]; // Get the piece below the King that just moved and store it
-                    chessPieces[lastMove[1].x, lastMove[1].y + 1] = rook; // Set the rook to the tile on the top of the King
-                    PositionSinglePiece(lastMove[1].x, lastMove[1].y + 1); // Actually move the physical rook
-                    chessPieces[lastMove[1].x, lastMove[1].y - 1] = null; // Clear the tile that the rook moved from
+                    if (chessPieces[x, lastMove[1].y] != null)
+                    {
+                        if (chessPieces[x, lastMove[1].y].type == ChessPieceType.Rook && chessPieces[x, lastMove[1].y].team == chessPieces[lastMove[1].x, lastMove[1].y].team)
+                        {
+                            ChessPiece rook = chessPieces[x, lastMove[1].y]; // Get the piece to the right of the King that just moved and store it
+                            chessPieces[lastMove[1].x - 1, lastMove[1].y] = rook; // Set the rook to the tile on the left of the King
+                            PositionSinglePiece(lastMove[1].x - 1, lastMove[1].y); // Actually move the physical rook
+                            chessPieces[x, lastMove[1].y] = null; // Clear the tile that the rook moved from
+                        }
+                    }
                 }
             }
-
-
-            //Left Rook
-            else if (lastMove[1].x > 0 && chessPieces[lastMove[1].x - 1, lastMove[1].y] != null) // Check the King isn't the furthest on the left and that there is a rook there to query
+            //Bottom rook
+            else if(lastMoveDirectionY > 0)
             {
-                if (chessPieces[lastMove[1].x - 1, lastMove[1].y].type == ChessPieceType.Rook && chessPieces[lastMove[1].x - 1, lastMove[1].y].team == chessPieces[lastMove[1].x, lastMove[1].y].team)
+                for (int y = lastMove[1].y - 1; y >= 0; y--)
                 {
-                    ChessPiece rook = chessPieces[lastMove[1].x - 1, lastMove[1].y]; // Get the piece to the left of the King that just moved and store it
-                    chessPieces[lastMove[1].x + 1, lastMove[1].y] = rook; // Set the rook to the tile on the right of the King
-                    PositionSinglePiece(lastMove[1].x + 1, lastMove[1].y); // Actually move the physical rook
-                    chessPieces[lastMove[1].x - 1, lastMove[1].y] = null; // Clear the tile that the rook moved from
+                    if (chessPieces[lastMove[1].x, y] != null)
+                    {
+                        if (chessPieces[lastMove[1].x, y].type == ChessPieceType.Rook && chessPieces[lastMove[1].x, y].team == chessPieces[lastMove[1].x, lastMove[1].y].team)
+                        {
+                            ChessPiece rook = chessPieces[lastMove[1].x, y]; // Get the piece below the King that just moved and store it
+                            chessPieces[lastMove[1].x, lastMove[1].y + 1] = rook; // Set the rook to the tile on the top of the King
+                            PositionSinglePiece(lastMove[1].x, lastMove[1].y + 1); // Actually move the physical rook
+                            chessPieces[lastMove[1].x, y] = null; // Clear the tile that the rook moved from
+                        }
+                    }
                 }
             }
-
-            //Right Rook
-            else if (lastMove[1].x != tileCountX-1 && chessPieces[lastMove[1].x + 1, lastMove[1].y] != null) // Check the King isn't the furthest on the right and that there is a rook there to query
+            //Top rook
+            else if (lastMoveDirectionY < 0)
             {
-                if (chessPieces[lastMove[1].x + 1, lastMove[1].y].type == ChessPieceType.Rook && chessPieces[lastMove[1].x + 1, lastMove[1].y].team == chessPieces[lastMove[1].x, lastMove[1].y].team)
+                for (int y = lastMove[1].y + 1; y < tileCountY; y++)
                 {
-                    ChessPiece rook = chessPieces[lastMove[1].x + 1, lastMove[1].y]; // Get the piece to the right of the King that just moved and store it
-                    chessPieces[lastMove[1].x - 1, lastMove[1].y] = rook; // Set the rook to the tile on the left of the King
-                    PositionSinglePiece(lastMove[1].x - 1, lastMove[1].y); // Actually move the physical rook
-                    chessPieces[lastMove[1].x + 1, lastMove[1].y] = null; // Clear the tile that the rook moved from
+                    if (chessPieces[lastMove[1].x, y] != null)
+                    {
+                        if (chessPieces[lastMove[1].x, y].type == ChessPieceType.Rook && chessPieces[lastMove[1].x, y].team == chessPieces[lastMove[1].x, lastMove[1].y].team)
+                        {
+                            ChessPiece rook = chessPieces[lastMove[1].x, y]; // Get the piece above the King that just moved and store it
+                            chessPieces[lastMove[1].x, lastMove[1].y - 1] = rook; // Set the rook to the tile on the bottom of the King
+                            PositionSinglePiece(lastMove[1].x, lastMove[1].y - 1); // Actually move the physical rook
+                            chessPieces[lastMove[1].x, y] = null; // Clear the tile that the rook moved from
+                        }
+                        break;
+                    }
                 }
             }
         }
