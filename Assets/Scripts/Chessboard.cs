@@ -594,6 +594,6 @@ public class Chessboard : MonoBehaviour
         if (isWhiteTurn)
             GameObject.Find("TeamOverlay").GetComponent<Image>().color = Color.white;
         else
-            GameObject.Find("TeamOverlay").GetComponent<Image>().color = new Color32(41, 41, 41, 255);
+            GameObject.Find("TeamOverlay").GetComponent<Image>().color = new Color32(32, 32, 32, 255);
     }
 }
