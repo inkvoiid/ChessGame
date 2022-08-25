@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum SpecialMove
 {
@@ -50,7 +51,7 @@ public class Chessboard : MonoBehaviour
 
     private void Awake()
     {
-        isWhiteTurn = true;
+        ResetTurn();
 
         GenerateAllTiles(tileSize, tileCountX, tileCountY);
 
@@ -365,7 +366,7 @@ public class Chessboard : MonoBehaviour
 
         SpawnAllPieces();
         PositionAllPieces();
-        isWhiteTurn = true;
+        ResetTurn();
     }
 
     public void OnExitButton()
@@ -551,7 +552,7 @@ public class Chessboard : MonoBehaviour
 
         PositionSinglePiece(x, y);
 
-        isWhiteTurn = !isWhiteTurn;
+        NextTurn();
         moveList.Add(new Vector2Int[] { previousPosition, new Vector2Int(x,y) });
 
         ProcessSpecialMove();
@@ -579,5 +580,20 @@ public class Chessboard : MonoBehaviour
     public static Camera getCurrentCamera()
     {
         return currentCamera;
+    }
+
+    // Change turn
+    private void ResetTurn()
+    {
+        isWhiteTurn = true;
+        GameObject.Find("TeamOverlay").GetComponent<Image>().color = Color.white;
+    }
+    private void NextTurn()
+    {
+        isWhiteTurn = !isWhiteTurn;
+        if (isWhiteTurn)
+            GameObject.Find("TeamOverlay").GetComponent<Image>().color = Color.white;
+        else
+            GameObject.Find("TeamOverlay").GetComponent<Image>().color = new Color32(41, 41, 41, 255);
     }
 }
