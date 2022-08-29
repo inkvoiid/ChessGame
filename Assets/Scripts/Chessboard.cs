@@ -103,6 +103,8 @@ public class Chessboard : MonoBehaviour
                         availableMoves = currentlyDragging.GetAvailableMoves(ref chessPieces, tileCountX, tileCountY);
                         // Get a list of special moves
                         specialMove = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves, new Vector2Int(tileCountX,tileCountY));
+
+                        PreventCheck();
                         HighlightTiles();
                     }
                 }
@@ -516,6 +518,90 @@ public class Chessboard : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void PreventCheck()
+    {
+        ChessPiece targetKing = null;
+        for (int x = 0; x < tileCountX; x++)
+            for (int y = 0; y < tileCountY; y++)
+                if (chessPieces[x, y] != null)
+                    if (chessPieces[x, y].type == ChessPieceType.King)
+                        if (chessPieces[x, y].team == currentlyDragging.team)
+                            targetKing = chessPieces[x, y];
+            // Since availableMoves is passed in reference, we can delete moves from the list that put us in check
+            SimulateMoveForSinglePiece(currentlyDragging, ref availableMoves, targetKing);
+    }
+    private void SimulateMoveForSinglePiece(ChessPiece piece, ref List<Vector2Int> moves, ChessPiece targetKing)
+    {
+        // Save the current values, to reset after the function call
+        int actualX = piece.currentX;
+        int actualY = piece.currentY;
+        List<Vector2Int> movesToRemove = new List<Vector2Int>();
+
+        // Go through all the moves, simulate tem and check if we're in check
+        for (int i = 0; i < moves.Count; i++)
+        {
+            int simX = moves[i].x;
+            int simY = moves[i].y;
+
+            Vector2Int kingPositionThisSim = new Vector2Int(targetKing.currentX, targetKing.currentY);
+            // Did we simulate the king's move
+            if(piece.type == ChessPieceType.King)
+                kingPositionThisSim = new Vector2Int(simX, simY);
+
+            // Copy the [,] (2d array) and not a reference
+            ChessPiece[,] simulation = new ChessPiece[tileCountX, tileCountY];
+            List<ChessPiece> simAttackingPieces = new List<ChessPiece>();
+            for (int x = 0; x < tileCountX; x++)
+            {
+                for (int y = 0; y < tileCountY; y++)
+                {
+                    if (chessPieces[x,y] != null) 
+                    { 
+                        simulation[x, y] = chessPieces[x, y];
+                        if (simulation[x, y].team != piece.team)
+                            simAttackingPieces.Add(simulation[x, y]);
+                    }
+                }
+            }
+
+            // Simulate that move
+            simulation[actualX, actualY] = null;
+            piece.currentX = simX;
+            piece.currentY = simY;
+            simulation[simX, simY] = piece;
+
+            // Did the simulated move result in a piece getting taken
+            var deadPiece = simAttackingPieces.Find(c => c.currentX == simX && c.currentY == simY);
+            if (deadPiece != null)
+                simAttackingPieces.Remove(deadPiece);
+
+            // Get all the simulated attacking pieces moves
+
+            List<Vector2Int> simMoves = new List<Vector2Int>();
+            for (int a = 0; a < simAttackingPieces.Count; a++)
+            {
+                var pieceMoves = simAttackingPieces[a].GetAvailableMoves(ref simulation, tileCountX, tileCountY);
+                for (int b = 0; b < pieceMoves.Count; b++)
+                    simMoves.Add(pieceMoves[b]);
+            }
+
+            // Is the king in trouble? If so, remove the move
+            if (ContainsValidMove(ref simMoves, kingPositionThisSim))
+            {
+                movesToRemove.Add(moves[i]);
+            }
+
+            // Restore actual piece data
+            piece.currentX = actualX;
+            piece.currentY = actualY;
+        }
+        // Remove from the current availableMove list
+        for (int i = 0; i < movesToRemove.Count; i++)
+            {
+                moves.Remove(movesToRemove[i]);
+            }
     }
 
     // Operations
