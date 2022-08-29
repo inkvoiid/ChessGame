@@ -13,7 +13,7 @@ public class King : ChessPiece
         // (Check if wall before move or something)
 
         // Top Right
-        if(currentY + 1 < tileCountY)
+        if(currentY + 1 < tileCountY && currentX + 1 < tileCountX)
         {
             if (board[currentX + 1, currentY + 1] == null)
                 r.Add(new Vector2Int(currentX + 1, currentY + 1));
@@ -29,7 +29,7 @@ public class King : ChessPiece
                 r.Add(new Vector2Int(currentX + 1, currentY));
         }
         // Bottom Right
-        if (currentY - 1 >= 0)
+        if (currentY - 1 >= 0 && currentX + 1 < tileCountX)
         {
             if (board[currentX + 1, currentY - 1] == null)
                 r.Add(new Vector2Int(currentX + 1, currentY - 1));
@@ -38,7 +38,7 @@ public class King : ChessPiece
         }
 
         // Top Left
-        if (currentY + 1 < tileCountY)
+        if (currentY + 1 < tileCountY && currentX - 1 >= 0)
         {
             if (board[currentX - 1, currentY + 1] == null)
                 r.Add(new Vector2Int(currentX - 1, currentY + 1));
@@ -54,7 +54,7 @@ public class King : ChessPiece
                 r.Add(new Vector2Int(currentX - 1, currentY));
         }
         // Bottom Left
-        if (currentY - 1 >= 0)
+        if (currentY - 1 >= 0 && currentX - 1 >= 0)
         {
             if (board[currentX - 1, currentY - 1] == null)
                 r.Add(new Vector2Int(currentX - 1, currentY - 1));
