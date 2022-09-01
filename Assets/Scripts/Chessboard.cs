@@ -39,8 +39,8 @@ public class Chessboard : MonoBehaviour
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
     private List<ChessPiece> deadWhitePieces = new List<ChessPiece>();
     private List<ChessPiece> deadBlackPieces = new List<ChessPiece>();
-    private int tileCountX = 8;
-    private int tileCountY = 8;
+    [SerializeField] private int tileCountX = 8;
+    [SerializeField] private int tileCountY = 8;
     private GameObject[,] tiles;
     private static Camera currentCamera;
     private Vector2Int currentHover;
@@ -204,28 +204,32 @@ public class Chessboard : MonoBehaviour
 
         int basicWhite = 0, basicBlack = 1;
 
+        int teamWidth = 8;
+
+        int startingX = (tileCountX - teamWidth) / 2;
+
         // WhiteTeam
-        chessPieces[0, 0] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
-        chessPieces[1, 0] = SpawnSinglePiece(ChessPieceType.Knight, basicWhite);
-        chessPieces[2, 0] = SpawnSinglePiece(ChessPieceType.Bishop, basicWhite);
-        chessPieces[3, 0] = SpawnSinglePiece(ChessPieceType.Queen, basicWhite);
-        chessPieces[4, 0] = SpawnSinglePiece(ChessPieceType.King, basicWhite);
-        chessPieces[5, 0] = SpawnSinglePiece(ChessPieceType.Bishop, basicWhite);
-        chessPieces[6, 0] = SpawnSinglePiece(ChessPieceType.Knight, basicWhite);
-        chessPieces[7, 0] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
-        for (int i = 0; i < tileCountX; i++)
+        chessPieces[startingX + 0, 0] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
+        chessPieces[startingX + 1, 0] = SpawnSinglePiece(ChessPieceType.Knight, basicWhite);
+        chessPieces[startingX + 2, 0] = SpawnSinglePiece(ChessPieceType.Bishop, basicWhite);
+        chessPieces[startingX + 3, 0] = SpawnSinglePiece(ChessPieceType.Queen, basicWhite);
+        chessPieces[startingX + 4, 0] = SpawnSinglePiece(ChessPieceType.King, basicWhite);
+        chessPieces[startingX + 5, 0] = SpawnSinglePiece(ChessPieceType.Bishop, basicWhite);
+        chessPieces[startingX + 6, 0] = SpawnSinglePiece(ChessPieceType.Knight, basicWhite);
+        chessPieces[startingX + 7, 0] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
+        for (int i = startingX + 0; i < startingX + 8; i++)
             chessPieces[i, 1] = SpawnSinglePiece(ChessPieceType.Pawn, basicWhite);
 
         // BlackTeam
-        chessPieces[0, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Rook, basicBlack);
-        chessPieces[1, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Knight, basicBlack);
-        chessPieces[2, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Bishop, basicBlack);
-        chessPieces[3, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Queen, basicBlack);
-        chessPieces[4, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.King, basicBlack);
-        chessPieces[5, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Bishop, basicBlack);
-        chessPieces[6, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Knight, basicBlack);
-        chessPieces[7, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Rook, basicBlack);
-        for (int i = 0; i < tileCountX; i++)
+        chessPieces[startingX + 0, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Rook, basicBlack);
+        chessPieces[startingX + 1, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Knight, basicBlack);
+        chessPieces[startingX + 2, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Bishop, basicBlack);
+        chessPieces[startingX + 3, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Queen, basicBlack);
+        chessPieces[startingX + 4, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.King, basicBlack);
+        chessPieces[startingX + 5, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Bishop, basicBlack);
+        chessPieces[startingX + 6, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Knight, basicBlack);
+        chessPieces[startingX + 7, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Rook, basicBlack);
+        for (int i = startingX + 0; i < startingX + 8; i++)
             chessPieces[i, tileCountY - 2] = SpawnSinglePiece(ChessPieceType.Pawn, basicBlack);
 
 
