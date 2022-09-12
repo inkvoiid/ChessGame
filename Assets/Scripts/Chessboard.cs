@@ -50,6 +50,8 @@ public class Chessboard : MonoBehaviour
     private SpecialMove specialMove;
     private List<Vector2Int[]> moveList = new List<Vector2Int[]>();
 
+    MusicController bgMusic;
+
     private void Awake()
     {
         ResetTurn();
@@ -58,6 +60,12 @@ public class Chessboard : MonoBehaviour
 
         SpawnAllPieces();
         PositionAllPieces();
+    }
+
+    private void Start()
+    {
+        bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>();
+        bgMusic.RegisterSoundControl();
     }
 
     private void Update()

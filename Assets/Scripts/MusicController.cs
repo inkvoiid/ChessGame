@@ -5,30 +5,36 @@ using UnityEngine.UI;
 
 public class MusicController : MonoBehaviour
 {
+    static MusicController instance;
     private GameObject toggleSoundButton;
-    private GameObject backgroundMusic;
-    private bool isMusicOn = true;
 
     [SerializeField] private Sprite imageOn;
     [SerializeField] private Sprite imageOff;
 
     private void Awake()
     {
-        toggleSoundButton = GameObject.Find("ToggleSound");
-        backgroundMusic = GameObject.Find("Background Music");
-    }
-
-    public void OnToggleSoundButton()
-    {
-        if (isMusicOn)
+        if (instance != null)
         {
-            toggleSoundButton.transform.GetChild(0).GetComponentInChildren<Image>().sprite = imageOff;
+            Destroy(gameObject);
         }
         else
         {
-            toggleSoundButton.transform.GetChild(0).GetComponentInChildren<Image>().sprite = imageOn;
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        isMusicOn = !isMusicOn;
-        backgroundMusic.GetComponent<AudioSource>().mute = !backgroundMusic.GetComponent<AudioSource>().mute;
+        RegisterSoundControl();
+    }
+
+    public void OnSoundSlider(float val)
+    {
+        instance.GetComponent<AudioSource>().volume = val;
+    }
+
+    public void RegisterSoundControl()
+    {
+        toggleSoundButton = GameObject.Find("ToggleSound");
+        toggleSoundButton.GetComponentInChildren<Slider>().onValueChanged.AddListener((v) => OnSoundSlider(v));
+
+        instance.GetComponent<AudioSource>().volume = toggleSoundButton.GetComponentInChildren<Slider>().value;
     }
 }
