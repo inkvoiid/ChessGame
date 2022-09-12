@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum SpecialMove
@@ -105,6 +106,7 @@ public class Chessboard : MonoBehaviour
                         specialMove = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves, new Vector2Int(tileCountX,tileCountY));
 
                         PreventCheck();
+                        
                         HighlightTiles();
                     }
                 }
@@ -208,29 +210,37 @@ public class Chessboard : MonoBehaviour
 
         int startingX = (tileCountX - teamWidth) / 2;
 
-        // WhiteTeam
-        chessPieces[startingX + 0, 0] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
-        chessPieces[startingX + 1, 0] = SpawnSinglePiece(ChessPieceType.Knight, basicWhite);
-        chessPieces[startingX + 2, 0] = SpawnSinglePiece(ChessPieceType.Bishop, basicWhite);
-        chessPieces[startingX + 3, 0] = SpawnSinglePiece(ChessPieceType.Queen, basicWhite);
-        chessPieces[startingX + 4, 0] = SpawnSinglePiece(ChessPieceType.King, basicWhite);
-        chessPieces[startingX + 5, 0] = SpawnSinglePiece(ChessPieceType.Bishop, basicWhite);
-        chessPieces[startingX + 6, 0] = SpawnSinglePiece(ChessPieceType.Knight, basicWhite);
-        chessPieces[startingX + 7, 0] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
-        for (int i = startingX + 0; i < startingX + 8; i++)
-            chessPieces[i, 1] = SpawnSinglePiece(ChessPieceType.Pawn, basicWhite);
+        //// WhiteTeam
+        //chessPieces[startingX + 0, 0] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
+        //chessPieces[startingX + 1, 0] = SpawnSinglePiece(ChessPieceType.Knight, basicWhite);
+        //chessPieces[startingX + 2, 0] = SpawnSinglePiece(ChessPieceType.Bishop, basicWhite);
+        //chessPieces[startingX + 3, 0] = SpawnSinglePiece(ChessPieceType.Queen, basicWhite);
+        //chessPieces[startingX + 4, 0] = SpawnSinglePiece(ChessPieceType.King, basicWhite);
+        //chessPieces[startingX + 5, 0] = SpawnSinglePiece(ChessPieceType.Bishop, basicWhite);
+        //chessPieces[startingX + 6, 0] = SpawnSinglePiece(ChessPieceType.Knight, basicWhite);
+        //chessPieces[startingX + 7, 0] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
+        //for (int i = startingX + 0; i < startingX + 8; i++)
+        //    chessPieces[i, 1] = SpawnSinglePiece(ChessPieceType.Pawn, basicWhite);
 
-        // BlackTeam
-        chessPieces[startingX + 0, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Rook, basicBlack);
-        chessPieces[startingX + 1, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Knight, basicBlack);
-        chessPieces[startingX + 2, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Bishop, basicBlack);
-        chessPieces[startingX + 3, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Queen, basicBlack);
-        chessPieces[startingX + 4, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.King, basicBlack);
-        chessPieces[startingX + 5, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Bishop, basicBlack);
-        chessPieces[startingX + 6, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Knight, basicBlack);
-        chessPieces[startingX + 7, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Rook, basicBlack);
-        for (int i = startingX + 0; i < startingX + 8; i++)
-            chessPieces[i, tileCountY - 2] = SpawnSinglePiece(ChessPieceType.Pawn, basicBlack);
+        //// BlackTeam
+        //chessPieces[startingX + 0, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Rook, basicBlack);
+        //chessPieces[startingX + 1, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Knight, basicBlack);
+        //chessPieces[startingX + 2, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Bishop, basicBlack);
+        //chessPieces[startingX + 3, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Queen, basicBlack);
+        //chessPieces[startingX + 4, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.King, basicBlack);
+        //chessPieces[startingX + 5, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Bishop, basicBlack);
+        //chessPieces[startingX + 6, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Knight, basicBlack);
+        //chessPieces[startingX + 7, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Rook, basicBlack);
+        //for (int i = startingX + 0; i < startingX + 8; i++)
+        //    chessPieces[i, tileCountY - 2] = SpawnSinglePiece(ChessPieceType.Pawn, basicBlack);
+
+
+
+
+        chessPieces[startingX + 4, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.King, basicWhite);
+        chessPieces[startingX + 7, 0] = SpawnSinglePiece(ChessPieceType.King, basicBlack);
+        chessPieces[startingX + 5, 1] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
+        chessPieces[startingX + 5, 4] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
 
 
     }
@@ -331,6 +341,11 @@ public class Chessboard : MonoBehaviour
         DisplayVictory(team);
     }
 
+    private void Stalemate()
+    {
+        DisplayVictory(2);
+    }
+
     private void DisplayVictory(int winningTeam)
     {
         victoryScreen.SetActive(true);
@@ -342,6 +357,7 @@ public class Chessboard : MonoBehaviour
         // UI
         victoryScreen.transform.GetChild(0).gameObject.SetActive(false);
         victoryScreen.transform.GetChild(1).gameObject.SetActive(false);
+        victoryScreen.transform.GetChild(2).gameObject.SetActive(false);
         victoryScreen.SetActive(false);
 
         // Field reset
@@ -377,7 +393,7 @@ public class Chessboard : MonoBehaviour
 
     public void OnExitButton()
     {
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
 
     // Special Moves
@@ -399,7 +415,7 @@ public class Chessboard : MonoBehaviour
                         deadWhitePieces.Add(enemyPawn);
                         enemyPawn.SetScale(Vector3.one * deathSize);
                         enemyPawn.SetPosition(
-                            new Vector3(8 * tileSize, yOffset, -1 * tileSize)
+                            new Vector3(tileCountX * tileSize, yOffset, -1 * tileSize)
                             - bounds
                             + new Vector3(tileSize / 2, 0, tileSize / 2)
                             + (Vector3.forward * deathSpacing) * deadWhitePieces.Count);
@@ -409,7 +425,7 @@ public class Chessboard : MonoBehaviour
                         deadBlackPieces.Add(enemyPawn);
                         enemyPawn.SetScale(Vector3.one * deathSize);
                         enemyPawn.SetPosition(
-                            new Vector3(-1 * tileSize, yOffset, 8 * tileSize)
+                            new Vector3(-1 * tileSize, yOffset, tileCountX * tileSize)
                             - bounds
                             + new Vector3(tileSize / 2, 0, tileSize / 2)
                             + (Vector3.back * deathSpacing) * deadBlackPieces.Count);
@@ -533,8 +549,8 @@ public class Chessboard : MonoBehaviour
                     if (chessPieces[x, y].type == ChessPieceType.King)
                         if (chessPieces[x, y].team == currentlyDragging.team)
                             targetKing = chessPieces[x, y];
-            // Since availableMoves is passed in reference, we can delete moves from the list that put us in check
-            SimulateMoveForSinglePiece(currentlyDragging, ref availableMoves, targetKing);
+        // Since availableMoves is passed in reference, we can delete moves from the list that put us in check
+        SimulateMoveForSinglePiece(currentlyDragging, ref availableMoves, targetKing);
     }
     private void SimulateMoveForSinglePiece(ChessPiece piece, ref List<Vector2Int> moves, ChessPiece targetKing)
     {
@@ -603,9 +619,9 @@ public class Chessboard : MonoBehaviour
         }
         // Remove from the current availableMove list
         for (int i = 0; i < movesToRemove.Count; i++)
-            {
-                moves.Remove(movesToRemove[i]);
-            }
+        {
+            moves.Remove(movesToRemove[i]);
+        }
     }
     private bool CheckforCheckmate()
     {
@@ -661,6 +677,74 @@ public class Chessboard : MonoBehaviour
 
         return false;
     }
+
+    private bool CheckforStalemate()
+    {
+        // Set the team to whoever's turn it just became
+        int targetTeam = isWhiteTurn ? 0 : 1;
+        // A list of moves that pieces on the team can move to
+        List<Vector2Int> piecesWithMoves = new List<Vector2Int>();
+        // A list for moves that the attacking team can move to, that need to be removed
+        List<Vector2Int> movesToRemove = new List<Vector2Int>();
+
+        // Get all the moves for all the pieces on the team
+        for (int x = 0; x < tileCountX; x++)
+        {
+            for (int y = 0; y < tileCountY; y++)
+            {
+                if (chessPieces[x,y] != null)
+                    if (chessPieces[x, y].team == targetTeam)
+                        if(chessPieces[x, y].GetAvailableMoves(ref chessPieces, tileCountX, tileCountY).Count > 0)
+                        {
+
+                            foreach (var move in chessPieces[x, y].GetAvailableMoves(ref chessPieces, tileCountX, tileCountY))
+                            {
+                                piecesWithMoves.Add(move);
+                            }
+                        }
+            }
+            
+            
+        }
+
+        // Add the moves that the attacking team are blocking to the removal list
+        for (int x = 0; x < tileCountX; x++)
+        {
+            for (int y = 0; y < tileCountY; y++)
+            {
+                if (chessPieces[x, y] != null)
+                    if (chessPieces[x, y].team != targetTeam)
+                        if (chessPieces[x, y].GetAvailableMoves(ref chessPieces, tileCountX, tileCountY).Count > 0)
+                        {
+
+                            foreach (var move in chessPieces[x, y].GetAvailableMoves(ref chessPieces, tileCountX, tileCountY))
+                            {
+                                foreach (var spot in piecesWithMoves)
+                                {
+                                    if (move == spot)
+                                    {
+                                        movesToRemove.Add(spot);
+                                    }
+                                }
+                            }
+                        }
+            }
+        }
+
+        // Remove the moves from the removal list
+        for (int i = 0; i < movesToRemove.Count; i++)
+        {
+            piecesWithMoves.Remove(movesToRemove[i]);
+        }
+
+        // If the list is empty, no one on the team can move, so return stalemate
+        if (piecesWithMoves.Count <= 0)
+            return true;
+
+
+        return false;
+    }
+
     // Operations
     private bool ContainsValidMove(ref List<Vector2Int> moves, Vector2Int pos)
     {
@@ -697,7 +781,7 @@ public class Chessboard : MonoBehaviour
                 deadWhitePieces.Add(otherPiece);
                 otherPiece.SetScale(Vector3.one * deathSize);
                 otherPiece.SetPosition(
-                    new Vector3(8 * tileSize, yOffset, -1 * tileSize)
+                    new Vector3(tileCountX * tileSize, yOffset, -1 * tileSize)
                     - bounds
                     + new Vector3(tileSize / 2, 0, tileSize / 2)
                     + (Vector3.forward * deathSpacing) * deadWhitePieces.Count);
@@ -709,7 +793,7 @@ public class Chessboard : MonoBehaviour
                 deadBlackPieces.Add(otherPiece);
                 otherPiece.SetScale(Vector3.one * deathSize);
                 otherPiece.SetPosition(
-                    new Vector3(-1 * tileSize, yOffset, 8 * tileSize)
+                    new Vector3(-1 * tileSize, yOffset, tileCountX * tileSize)
                     - bounds
                     + new Vector3(tileSize / 2, 0, tileSize / 2)
                     + (Vector3.back * deathSpacing) * deadBlackPieces.Count);
@@ -730,6 +814,13 @@ public class Chessboard : MonoBehaviour
         {
             Checkmate(piece.team);
         }
+
+        if (CheckforStalemate())
+        {
+            Stalemate();
+        }
+
+        Debug.Log("Moved from " + moveList[moveList.Count - 1][0] + " to " + moveList[moveList.Count - 1][1]);
 
         return true;
     }
