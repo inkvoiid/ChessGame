@@ -35,6 +35,6 @@ public class MusicController : MonoBehaviour
         toggleSoundButton = GameObject.Find("ToggleSound");
         toggleSoundButton.GetComponentInChildren<Slider>().onValueChanged.AddListener((v) => OnSoundSlider(v));
 
-        instance.GetComponent<AudioSource>().volume = toggleSoundButton.GetComponentInChildren<Slider>().value;
+        toggleSoundButton.GetComponentInChildren<Slider>().value = instance.GetComponent<AudioSource>().volume;
     }
 }

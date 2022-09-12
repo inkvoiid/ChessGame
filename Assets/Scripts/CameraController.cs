@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetMouseButton(1) && Chessboard.currentlyDragging == null && !isTopDown)
+        if (Input.GetMouseButton(1) && Chessboard.currentlyDragging == null && !isTopDown && Chessboard.amPlaying == true)
         {
             rotationX = speed * -Input.GetAxis("Mouse Y");
             rotationY = speed * Input.GetAxis("Mouse X");

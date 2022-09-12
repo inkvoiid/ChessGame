@@ -23,6 +23,7 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private float deathSpacing = 0.3f;
     [SerializeField] private float dragOffset = 1.0f;
     [SerializeField] private GameObject victoryScreen;
+    [SerializeField] private GameObject pauseScreen;
 
     [Header("Prefabs and Materials")]
     [SerializeField] private GameObject[] prefabs;
@@ -51,21 +52,21 @@ public class Chessboard : MonoBehaviour
     private List<Vector2Int[]> moveList = new List<Vector2Int[]>();
 
     MusicController bgMusic;
+    public static bool amPlaying = false;
 
     private void Awake()
     {
+        bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>();
+        bgMusic.RegisterSoundControl();
+
         ResetTurn();
 
         GenerateAllTiles(tileSize, tileCountX, tileCountY);
 
         SpawnAllPieces();
         PositionAllPieces();
-    }
-
-    private void Start()
-    {
-        bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>();
-        bgMusic.RegisterSoundControl();
+        amPlaying = true;
+        pauseScreen.SetActive(false);
     }
 
     private void Update()
@@ -76,9 +77,14 @@ public class Chessboard : MonoBehaviour
             return;
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePauseScreen();
+        }
+
         RaycastHit info;
         Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out info, 100, LayerMask.GetMask("Chessboard Tile", "Chessboard Tile Hover", "Chessboard Tile Highlight")))
+        if (Physics.Raycast(ray, out info, 100, LayerMask.GetMask("Chessboard Tile", "Chessboard Tile Hover", "Chessboard Tile Highlight")) && amPlaying == true)
         {
             // Gets the indices of the chessboard tile i've hit
             Vector2Int hitPosition = LookupTileIndex(info.transform.gameObject);
@@ -108,6 +114,8 @@ public class Chessboard : MonoBehaviour
                     {
                         currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
 
+                        currentlyDragging.PlayPickupSound();
+
                         // Get a list of where I can go, highlight tiles
                         availableMoves = currentlyDragging.GetAvailableMoves(ref chessPieces, tileCountX, tileCountY);
                         // Get a list of special moves
@@ -128,7 +136,11 @@ public class Chessboard : MonoBehaviour
                 bool validMove = MoveTo(currentlyDragging, hitPosition.x, hitPosition.y);
 
                 if (!validMove)
+                {
+
+                    currentlyDragging.PlayPickupSound();
                     currentlyDragging.SetPosition(GetTileCenter(previousPosition.x, previousPosition.y));
+                }
 
                 currentlyDragging = null;
                 RemoveHighlightTiles();
@@ -348,6 +360,7 @@ public class Chessboard : MonoBehaviour
 
     private void DisplayVictory(int winningTeam)
     {
+        amPlaying = false;
         victoryScreen.SetActive(true);
         victoryScreen.transform.GetChild(winningTeam).gameObject.SetActive(true);
     }
@@ -389,6 +402,7 @@ public class Chessboard : MonoBehaviour
         SpawnAllPieces();
         PositionAllPieces();
         ResetTurn();
+        amPlaying = true;
     }
 
     public void OnExitButton()
@@ -410,7 +424,8 @@ public class Chessboard : MonoBehaviour
             {
                 if(myPawn.currentY == enemyPawn.currentY - 1 || myPawn.currentY == enemyPawn.currentY + 1)
                 {
-                    if(enemyPawn.team == 0)
+                    myPawn.PlayTakePieceSound();
+                    if (enemyPawn.team == 0)
                     {
                         deadWhitePieces.Add(enemyPawn);
                         enemyPawn.SetScale(Vector3.one * deathSize);
@@ -772,6 +787,8 @@ public class Chessboard : MonoBehaviour
                 return false;
             }
 
+            piece.PlayTakePieceSound();
+
             // If it's the enemy team
             if (otherPiece.team == 0)
             {
@@ -790,6 +807,7 @@ public class Chessboard : MonoBehaviour
             {
                 if (otherPiece.type == ChessPieceType.King)
                     Checkmate(0);
+
                 deadBlackPieces.Add(otherPiece);
                 otherPiece.SetScale(Vector3.one * deathSize);
                 otherPiece.SetPosition(
@@ -798,6 +816,10 @@ public class Chessboard : MonoBehaviour
                     + new Vector3(tileSize / 2, 0, tileSize / 2)
                     + (Vector3.back * deathSpacing) * deadBlackPieces.Count);
             }
+        }
+        else
+        {
+            piece.PlayMoveSound();
         }
 
         chessPieces[x, y] = piece;
@@ -860,5 +882,14 @@ public class Chessboard : MonoBehaviour
             GameObject.Find("TeamOverlay").GetComponent<Image>().color = Color.white;
         else
             GameObject.Find("TeamOverlay").GetComponent<Image>().color = new Color32(32, 32, 32, 255);
+    }
+
+    private void TogglePauseScreen()
+    {
+        if(victoryScreen.activeInHierarchy == false)
+        {
+            pauseScreen.SetActive(!pauseScreen.activeInHierarchy);
+            amPlaying = !amPlaying;
+        }
     }
 }

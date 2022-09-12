@@ -26,9 +26,15 @@ public enum ChessPieceType
     public static List<Vector2Int> allWhiteRookStartingPos;
     public static List<Vector2Int> allBlackRookStartingPos;
 
+    [SerializeField] private AudioClip moveSound;
+    [SerializeField] private AudioClip takePieceSound;
+    [SerializeField] private AudioClip pickupSound;
+    private AudioSource audioSource;
+
     private void Start()
     {
         transform.rotation = Quaternion.Euler((team == 1) ? Vector3.zero : new Vector3(0, 180, 0));
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -79,5 +85,23 @@ public enum ChessPieceType
         {
             transform.localScale = desiredScale;
         }
+    }
+
+    public virtual void PlayPickupSound()
+    {
+        audioSource.clip = pickupSound;
+        audioSource.Play();
+    }
+
+    public virtual void PlayMoveSound()
+    {
+        audioSource.clip = moveSound;
+        audioSource.Play();
+    }
+
+    public virtual void PlayTakePieceSound()
+    {
+        audioSource.clip = takePieceSound;
+        audioSource.Play();
     }
 }
