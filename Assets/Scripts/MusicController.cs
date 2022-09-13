@@ -22,7 +22,6 @@ public class MusicController : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        RegisterSoundControl();
     }
 
     public void OnSoundSlider(float val)
@@ -30,9 +29,9 @@ public class MusicController : MonoBehaviour
         instance.GetComponent<AudioSource>().volume = val;
     }
 
-    public void RegisterSoundControl()
+    public void RegisterSoundControl(GameObject ts)
     {
-        toggleSoundButton = GameObject.Find("ToggleSound");
+        toggleSoundButton = ts;
         toggleSoundButton.GetComponentInChildren<Slider>().onValueChanged.AddListener((v) => OnSoundSlider(v));
 
         toggleSoundButton.GetComponentInChildren<Slider>().value = instance.GetComponent<AudioSource>().volume;

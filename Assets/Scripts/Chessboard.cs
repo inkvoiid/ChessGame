@@ -52,12 +52,16 @@ public class Chessboard : MonoBehaviour
     private List<Vector2Int[]> moveList = new List<Vector2Int[]>();
 
     MusicController bgMusic;
+    [SerializeField] GameObject toggleSound;
+
     public static bool amPlaying = false;
 
     private void Awake()
     {
         bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>();
-        bgMusic.RegisterSoundControl();
+        if(bgMusic.GetComponent<AudioSource>().isPlaying == false)
+            bgMusic.GetComponent<AudioSource>().Play();
+        bgMusic.RegisterSoundControl(toggleSound);
 
         ResetTurn();
 
@@ -372,6 +376,7 @@ public class Chessboard : MonoBehaviour
         victoryScreen.transform.GetChild(1).gameObject.SetActive(false);
         victoryScreen.transform.GetChild(2).gameObject.SetActive(false);
         victoryScreen.SetActive(false);
+        pauseScreen.SetActive(false);
 
         // Field reset
         currentlyDragging = null;
@@ -402,6 +407,8 @@ public class Chessboard : MonoBehaviour
         SpawnAllPieces();
         PositionAllPieces();
         ResetTurn();
+        if(bgMusic.GetComponent<AudioSource>().isPlaying == false)
+            bgMusic.GetComponent<AudioSource>().Play();
         amPlaying = true;
     }
 
@@ -884,11 +891,15 @@ public class Chessboard : MonoBehaviour
             GameObject.Find("TeamOverlay").GetComponent<Image>().color = new Color32(32, 32, 32, 255);
     }
 
-    private void TogglePauseScreen()
+    public void TogglePauseScreen()
     {
         if(victoryScreen.activeInHierarchy == false)
         {
             pauseScreen.SetActive(!pauseScreen.activeInHierarchy);
+            if (pauseScreen.activeInHierarchy == true)
+                bgMusic.GetComponent<AudioSource>().Pause();
+            else
+                bgMusic.GetComponent<AudioSource>().Play();
             amPlaying = !amPlaying;
         }
     }
