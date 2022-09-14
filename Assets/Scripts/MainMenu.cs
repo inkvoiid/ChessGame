@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     MusicController bgMusic;
     [SerializeField] GameObject toggleSound;
-    private void Awake()
+    private void Start()
     {
         bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>(); 
         if (bgMusic.GetComponent<AudioSource>().isPlaying == false)

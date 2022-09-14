@@ -52,17 +52,12 @@ public class Chessboard : MonoBehaviour
     private List<Vector2Int[]> moveList = new List<Vector2Int[]>();
 
     MusicController bgMusic;
-    [SerializeField] GameObject toggleSound;
+    [SerializeField] private GameObject toggleSound;
 
     public static bool amPlaying = false;
 
     private void Awake()
     {
-        bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>();
-        if(bgMusic.GetComponent<AudioSource>().isPlaying == false)
-            bgMusic.GetComponent<AudioSource>().Play();
-        bgMusic.RegisterSoundControl(toggleSound);
-
         ResetTurn();
 
         GenerateAllTiles(tileSize, tileCountX, tileCountY);
@@ -71,6 +66,14 @@ public class Chessboard : MonoBehaviour
         PositionAllPieces();
         amPlaying = true;
         pauseScreen.SetActive(false);
+    }
+
+    private void Start()
+    {
+        bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>();
+        if (bgMusic.GetComponent<AudioSource>().isPlaying == false)
+            bgMusic.GetComponent<AudioSource>().Play();
+        bgMusic.RegisterSoundControl(toggleSound);
     }
 
     private void Update()
