@@ -12,7 +12,7 @@ public enum SpecialMove
     Promotion
 }
 
-public class Chessboard : MonoBehaviour
+public class Chessboard : MonoBehaviour, IDataPersistence
 {
     [Header("Art related")]
     [SerializeField] private Material tileMaterial;
@@ -51,8 +51,13 @@ public class Chessboard : MonoBehaviour
     private SpecialMove specialMove;
     private List<Vector2Int[]> moveList = new List<Vector2Int[]>();
 
+    // Music Related
     MusicController bgMusic;
     [SerializeField] private GameObject toggleSound;
+
+    // Custom Chess Team
+    private int blackTeamMaxWidth;
+    private int whiteTeamMaxWidth;
 
     public static bool amPlaying = false;
 
@@ -66,6 +71,18 @@ public class Chessboard : MonoBehaviour
         PositionAllPieces();
         amPlaying = true;
         pauseScreen.SetActive(false);
+    }
+
+    public void LoadData(GameData data)
+    {
+        this.blackTeamMaxWidth = data.blackTeamMaxWidth;
+        this.whiteTeamMaxWidth = data.whiteTeamMaxWidth;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.blackTeamMaxWidth = this.blackTeamMaxWidth;
+        data.whiteTeamMaxWidth = this.whiteTeamMaxWidth;
     }
 
     private void Start()

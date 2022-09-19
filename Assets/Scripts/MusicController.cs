@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MusicController : MonoBehaviour
+public class MusicController : MonoBehaviour, IDataPersistence
 {
     static MusicController instance;
     private GameObject toggleSoundButton;
@@ -35,5 +35,15 @@ public class MusicController : MonoBehaviour
         toggleSoundButton.GetComponentInChildren<Slider>().onValueChanged.AddListener((v) => OnSoundSlider(v));
 
         toggleSoundButton.GetComponentInChildren<Slider>().value = instance.GetComponent<AudioSource>().volume;
+    }
+
+    public void LoadData(GameData data)
+    {
+        instance.GetComponent<AudioSource>().volume = data.bgMusicVolume;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.bgMusicVolume = instance.GetComponent<AudioSource>().volume;
     }
 }
