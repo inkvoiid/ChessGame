@@ -623,7 +623,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                                 chessPieces[move.x, move.y].team != chessPieces[x,y].team)
                             {
                                 // Set the piece to having the king in check
-                                Debug.Log("yo");
+                                Debug.Log(chessPieces[x,y].type + " at (" + x + ", " + y + ") has the enemy in check!");
                                 chessPieces[x,y].hasKingInCheck = true;
                             }
                             else
@@ -735,7 +735,6 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                         if (chessPieces[x, y].type == ChessPieceType.King)
                         {
                             targetKing = chessPieces[x, y];
-                            Debug.Log("Found a king");
                         }
                     }
                     else
