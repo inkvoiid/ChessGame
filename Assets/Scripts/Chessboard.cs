@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -60,6 +61,15 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     // Custom Chess Team
     private int blackTeamMaxWidth;
     private int whiteTeamMaxWidth;
+    private List<int> whitePieceType;
+    private List<int> whitePieceMaterial;
+    private List<int> whitePieceStartingX;
+    private List<int> whitePieceStartingY;
+
+    private List<int> blackPieceType;
+    private List<int> blackPieceMaterial;
+    private List<int> blackPieceStartingX;
+    private List<int> blackPieceStartingY;
 
     public static bool amPlaying = false;
 
@@ -69,22 +79,36 @@ public class Chessboard : MonoBehaviour, IDataPersistence
 
         GenerateAllTiles(tileSize, tileCountX, tileCountY);
 
-        SpawnAllPieces();
-        PositionAllPieces();
-        amPlaying = true;
-        pauseScreen.SetActive(false);
     }
 
     public void LoadData(GameData data)
     {
         this.blackTeamMaxWidth = data.blackTeamMaxWidth;
         this.whiteTeamMaxWidth = data.whiteTeamMaxWidth;
+        this.whitePieceType = data.whitePieceType.ToList();
+        this.whitePieceMaterial = data.whitePieceMaterial.ToList();
+        this.whitePieceStartingX = data.whitePieceStartingX.ToList();
+        this.whitePieceStartingY = data.whitePieceStartingY.ToList();
+
+        this.blackPieceType = data.blackPieceType.ToList();
+        this.blackPieceMaterial = data.blackPieceMaterial.ToList();
+        this.blackPieceStartingX = data.blackPieceStartingX.ToList();
+        this.blackPieceStartingY = data.blackPieceStartingY.ToList();
     }
 
     public void SaveData(GameData data)
     {
         data.blackTeamMaxWidth = this.blackTeamMaxWidth;
         data.whiteTeamMaxWidth = this.whiteTeamMaxWidth;
+        data.whitePieceType = this.whitePieceType.ToArray();
+        data.whitePieceMaterial = this.whitePieceMaterial.ToArray();
+        data.whitePieceStartingX = this.whitePieceStartingX.ToArray();
+        data.whitePieceStartingY = this.whitePieceStartingY.ToArray();
+
+        data.blackPieceType = this.blackPieceType.ToArray();
+        data.blackPieceMaterial = this.blackPieceMaterial.ToArray();
+        data.blackPieceStartingX = this.blackPieceStartingX.ToArray();
+        data.blackPieceStartingY = this.blackPieceStartingY.ToArray();
     }
 
     private void Start()
@@ -93,6 +117,12 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         if (bgMusic.GetComponent<AudioSource>().isPlaying == false)
             bgMusic.GetComponent<AudioSource>().Play();
         bgMusic.RegisterSoundControl(toggleSound);
+
+
+        SpawnAllPieces();
+        PositionAllPieces();
+        amPlaying = true;
+        pauseScreen.SetActive(false);
     }
 
     private void Update()
@@ -245,49 +275,35 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         return tileObject;
     }
 
-    // Spawning of the pieces
+    // Spawning of the whiteTeamPieces
     private void SpawnAllPieces()
     {
         chessPieces = new ChessPiece[tileCountX, tileCountY];
-
-        int basicWhite = 0, basicBlack = 1;
 
         int teamWidth = 8;
 
         int startingX = (tileCountX - teamWidth) / 2;
 
-        // WhiteTeam
-        chessPieces[startingX + 0, 0] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
-        chessPieces[startingX + 1, 0] = SpawnSinglePiece(ChessPieceType.Knight, basicWhite);
-        chessPieces[startingX + 2, 0] = SpawnSinglePiece(ChessPieceType.Bishop, basicWhite);
-        chessPieces[startingX + 3, 0] = SpawnSinglePiece(ChessPieceType.Queen, basicWhite);
-        chessPieces[startingX + 4, 0] = SpawnSinglePiece(ChessPieceType.King, basicWhite);
-        chessPieces[startingX + 5, 0] = SpawnSinglePiece(ChessPieceType.Bishop, basicWhite);
-        chessPieces[startingX + 6, 0] = SpawnSinglePiece(ChessPieceType.Knight, basicWhite);
-        chessPieces[startingX + 7, 0] = SpawnSinglePiece(ChessPieceType.Rook, basicWhite);
-        for (int i = startingX + 0; i < startingX + 8; i++)
-            chessPieces[i, 1] = SpawnSinglePiece(ChessPieceType.Pawn, basicWhite);
-
-        // BlackTeam
-        chessPieces[startingX + 0, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Rook, basicBlack);
-        chessPieces[startingX + 1, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Knight, basicBlack);
-        chessPieces[startingX + 2, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Bishop, basicBlack);
-        chessPieces[startingX + 3, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Queen, basicBlack);
-        chessPieces[startingX + 4, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.King, basicBlack);
-        chessPieces[startingX + 5, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Bishop, basicBlack);
-        chessPieces[startingX + 6, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Knight, basicBlack);
-        chessPieces[startingX + 7, tileCountY - 1] = SpawnSinglePiece(ChessPieceType.Rook, basicBlack);
-        for (int i = startingX + 0; i < startingX + 8; i++)
-            chessPieces[i, tileCountY - 2] = SpawnSinglePiece(ChessPieceType.Pawn, basicBlack);
-
-
+        // White Team
+        for (int i = 0; i < whitePieceType.Count; i++)
+        {
+            chessPieces[startingX + whitePieceStartingX[i], whitePieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)whitePieceType[i], 0, whitePieceMaterial[i]);
+        }
+        
+        // Black Team
+        for (int i = 0; i < blackPieceType.Count; i++)
+        {
+            chessPieces[(tileCountX-1)-(startingX + blackPieceStartingX[i]), (tileCountY-1)- blackPieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)blackPieceType[i], 1, blackPieceMaterial[i]);
+        }
     }
-    private ChessPiece SpawnSinglePiece(ChessPieceType type, int team)
+    private ChessPiece SpawnSinglePiece(int index, ChessPieceType type, int team, int material = 0)
     {
         ChessPiece piece = Instantiate(prefabs[(int)type - 1], transform).GetComponent<ChessPiece>();
 
+        piece.index = index;
         piece.type = type;
         piece.team = team;
+        piece.material = (ChessPieceMaterial) material;
 
         Material[] teamMaterial;
 
@@ -477,6 +493,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                             + (Vector3.back * deathSpacing) * deadBlackPieces.Count);
                     }
                     chessPieces[enemyPawn.currentX, enemyPawn.currentY] = null;
+                    RemovePieceFromTeam(enemyPawn);
                 }
             }
         }
@@ -490,7 +507,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             {
                 if(targetPawn.team == 0 && lastMove[1].y == tileCountY - 1)
                 {
-                    ChessPiece newQueen = SpawnSinglePiece(ChessPieceType.Queen, 0);
+                    ChessPiece newQueen = SpawnSinglePiece(targetPawn.index, ChessPieceType.Queen, 0);
                     newQueen.transform.position = chessPieces[lastMove[1].x, lastMove[1].y].transform.position;
                     Destroy(chessPieces[lastMove[1].x, lastMove[1].y].gameObject);
                     chessPieces[lastMove[1].x, lastMove[1].y] = newQueen;
@@ -498,7 +515,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                 }
                 if (targetPawn.team == 1 && lastMove[1].y == 0)
                 {
-                    ChessPiece newQueen = SpawnSinglePiece(ChessPieceType.Queen, 1);
+                    ChessPiece newQueen = SpawnSinglePiece(targetPawn.index, ChessPieceType.Queen, 1);
                     newQueen.transform.position = chessPieces[lastMove[1].x, lastMove[1].y].transform.position;
                     Destroy(chessPieces[lastMove[1].x, lastMove[1].y].gameObject);
                     chessPieces[lastMove[1].x, lastMove[1].y] = newQueen;
@@ -690,7 +707,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             if (deadPiece != null)
                 simAttackingPieces.Remove(deadPiece);
 
-            // Get all the simulated attacking pieces moves
+            // Get all the simulated attacking whiteTeamPieces moves
 
             List<Vector2Int> simMoves = new List<Vector2Int>();
             for (int a = 0; a < simAttackingPieces.Count; a++)
@@ -789,12 +806,12 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     {
         // Set the team to whoever's turn it just became
         int targetTeam = isWhiteTurn ? 0 : 1;
-        // A list of moves that pieces on the team can move to
+        // A list of moves that whiteTeamPieces on the team can move to
         List<Vector2Int> piecesWithMoves = new List<Vector2Int>();
         // A list for moves that the attacking team can move to, that need to be removed
         List<Vector2Int> movesToRemove = new List<Vector2Int>();
 
-        // Get all the moves for all the pieces on the team
+        // Get all the moves for all the whiteTeamPieces on the team
         for (int x = 0; x < tileCountX; x++)
         {
             for (int y = 0; y < tileCountY; y++)
@@ -880,8 +897,9 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             }
 
             piece.PlayTakePieceSound();
+            
 
-            // If it's the enemy team
+                // If it's the enemy team
             if (otherPiece.team == 0)
             {
                 if (otherPiece.type == ChessPieceType.King)
@@ -908,6 +926,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                     + new Vector3(tileSize / 2, 0, tileSize / 2)
                     + (Vector3.back * deathSpacing) * deadBlackPieces.Count);
             }
+            RemovePieceFromTeam(otherPiece);
         }
         else
         {
@@ -988,6 +1007,30 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             else
                 bgMusic.GetComponent<AudioSource>().Play();
             amPlaying = !amPlaying;
+        }
+    }
+
+    public void RemovePieceFromTeam(ChessPiece piece)
+    {
+        if (piece.team == 0)
+        {
+            if (piece.type != ChessPieceType.King)
+            {
+                whitePieceType.Remove(piece.index);
+                whitePieceMaterial.Remove(piece.index);
+                whitePieceStartingX.Remove(piece.index);
+                whitePieceStartingY.Remove(piece.index);
+            }
+        }
+        else
+        {
+            if (piece.type != ChessPieceType.King)
+            {
+                blackPieceType.Remove(piece.index);
+                blackPieceMaterial.Remove(piece.index);
+                blackPieceStartingX.Remove(piece.index);
+                blackPieceStartingY.Remove(piece.index);
+            }
         }
     }
 }

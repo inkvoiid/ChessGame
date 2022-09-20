@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,13 +13,25 @@ public enum ChessPieceType
     King = 6
 }
 
+public enum ChessPieceMaterial
+{
+    Basic = 0,
+    Glass = 1,
+    Ceramic = 2,
+    Stone = 3,
+    Metal = 4,
+    Diamond = 5
+}
+
     public class ChessPiece : MonoBehaviour
 {
     public int team;
     public int currentX;
     public int currentY;
     public Vector2Int startingPos;
+    public int index;
     public ChessPieceType type;
+    public ChessPieceMaterial material;
     public bool hasKingInCheck = false;
 
     private Vector3 desiredPosition;
@@ -43,6 +56,25 @@ public enum ChessPieceType
         transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 10);            // Lerp is linear interpolate (smoothly moves between two places.)
         transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * 10);
     }
+
+    //public ChessPieceData SaveChessPieceData()
+    //{
+    //    var pieceData = new ChessPieceData();
+    //    pieceData.type = this.type;
+    //    pieceData.material = this.material;
+    //    pieceData.team = this.team;
+
+    //    return pieceData;
+    //}
+
+    //public void RestoreFromData(ChessPieceData data)
+    //{
+    //    if (data == null) Debug.LogError("Couldn't restore chess piece data from file as it was null.");
+
+    //    this.type = data.type;
+    //    this.material = data.material;
+    //    this.team = data.team;
+    //}
 
     public virtual List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
     {
@@ -105,4 +137,12 @@ public enum ChessPieceType
         audioSource.clip = takePieceSound;
         audioSource.Play();
     }
+}
+
+[System.Serializable]
+public class ChessPieceData
+{
+    public ChessPieceType type;
+    public ChessPieceMaterial material;
+    public int team;
 }
