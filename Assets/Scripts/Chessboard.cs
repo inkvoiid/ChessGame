@@ -24,6 +24,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     [SerializeField] private float dragOffset = 1.0f;
     [SerializeField] private GameObject victoryScreen;
     [SerializeField] private GameObject pauseScreen;
+    [SerializeField] private GameObject checkNotif;
 
     [Header("Prefabs and Materials")]
     [SerializeField] private GameObject[] prefabs;
@@ -41,6 +42,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     private List<Vector2Int> availableMoves = new List<Vector2Int>();
     private List<ChessPiece> deadWhitePieces = new List<ChessPiece>();
     private List<ChessPiece> deadBlackPieces = new List<ChessPiece>();
+    private Dictionary<ChessPiece, Vector2Int> piecesThatPutKingsInCheck = new Dictionary<ChessPiece, Vector2Int>();
     [SerializeField] private int tileCountX = 8;
     [SerializeField] private int tileCountY = 8;
     private GameObject[,] tiles;
@@ -145,7 +147,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                         // Get a list of special moves
                         specialMove = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves, new Vector2Int(tileCountX,tileCountY));
 
-                        PreventCheck();
+                        //PreventCheck();
                         
                         HighlightTiles();
                     }
@@ -397,6 +399,8 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         victoryScreen.transform.GetChild(2).gameObject.SetActive(false);
         victoryScreen.SetActive(false);
         pauseScreen.SetActive(false);
+        checkNotif.transform.GetChild(0).gameObject.SetActive(false);
+        checkNotif.transform.GetChild(1).gameObject.SetActive(false);
 
         // Field reset
         currentlyDragging = null;
@@ -594,6 +598,53 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         // Since availableMoves is passed in reference, we can delete moves from the list that put us in check
         SimulateMoveForSinglePiece(currentlyDragging, ref availableMoves, targetKing);
     }
+
+    private void DisplayCheck()
+    {
+        // Disable both check notifications
+        checkNotif.transform.GetChild(0).gameObject.SetActive(false);
+        checkNotif.transform.GetChild(1).gameObject.SetActive(false);
+
+        // For every tile
+        for (int x = 0; x < tileCountX; x++)
+        {
+            for (int y = 0; y < tileCountY; y++)
+            {
+                // If the tile has a piece
+                if (chessPieces[x, y] != null)
+                {
+                    // For each move the piece can do
+                    foreach (var move in chessPieces[x,y].GetAvailableMoves(ref chessPieces, tileCountX, tileCountY))
+                    {
+                        // If the tile the piece can move to is a king of the opposite team
+                        if (chessPieces[move.x, move.y] != null)
+                        {
+                            if (chessPieces[move.x, move.y].type == ChessPieceType.King &&
+                                chessPieces[move.x, move.y].team != chessPieces[x,y].team)
+                            {
+                                // Set the piece to having the king in check
+                                Debug.Log("yo");
+                                chessPieces[x,y].hasKingInCheck = true;
+                            }
+                            else
+                            {
+                                // Else remove that status
+                                chessPieces[x,y].hasKingInCheck = false;
+                            }
+                        }
+                    }
+
+                    // If the piece has the enemy king in check, tell us
+                    if (chessPieces[x, y].hasKingInCheck == true)
+                    {
+                        checkNotif.transform.GetChild(chessPieces[x, y].team == 0 ? 1 : 0).gameObject.SetActive(true);
+                    }
+                }
+            }
+            
+        }
+    }
+
     private void SimulateMoveForSinglePiece(ChessPiece piece, ref List<Vector2Int> moves, ChessPiece targetKing)
     {
         // Save the current values, to reset after the function call
@@ -682,7 +733,10 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                         defendingPieces.Add(chessPieces[x, y]);
 
                         if (chessPieces[x, y].type == ChessPieceType.King)
+                        {
                             targetKing = chessPieces[x, y];
+                            Debug.Log("Found a king");
+                        }
                     }
                     else
                     {
@@ -699,6 +753,19 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                 currentAvailableMoves.Add(pieceMoves[b]);
         }
 
+        if (targetKing == null)
+        {
+            if (victoryScreen.activeInHierarchy)
+            {
+                Debug.Log("Checkmate");
+            }
+            else
+            {
+                Debug.LogError("No king was found and there hasn't been a checkmate");
+            }
+            return false;
+        }
+
         // Are we in check right now?
         if (ContainsValidMove(ref currentAvailableMoves, new Vector2Int(targetKing.currentX, targetKing.currentY)))
         {
@@ -713,10 +780,9 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                     return false;
                 }
             }
-
+            
             return true; // Checkmate exit
         }
-
         return false;
     }
 
@@ -868,6 +934,8 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         {
             Stalemate();
         }
+
+        DisplayCheck();
 
         Debug.Log("Moved from " + moveList[moveList.Count - 1][0] + " to " + moveList[moveList.Count - 1][1]);
 

@@ -19,6 +19,7 @@ public enum ChessPieceType
     public int currentY;
     public Vector2Int startingPos;
     public ChessPieceType type;
+    public bool hasKingInCheck = false;
 
     private Vector3 desiredPosition;
     private Vector3 desiredScale = Vector3.one;
