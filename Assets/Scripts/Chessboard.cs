@@ -61,6 +61,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     // Custom Chess Team
     private int blackTeamMaxWidth;
     private int whiteTeamMaxWidth;
+
     private List<int> whitePieceType;
     private List<int> whitePieceMaterial;
     private List<int> whitePieceStartingX;
@@ -85,6 +86,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     {
         this.blackTeamMaxWidth = data.blackTeamMaxWidth;
         this.whiteTeamMaxWidth = data.whiteTeamMaxWidth;
+
         this.whitePieceType = data.whitePieceType.ToList();
         this.whitePieceMaterial = data.whitePieceMaterial.ToList();
         this.whitePieceStartingX = data.whitePieceStartingX.ToList();
@@ -94,12 +96,14 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         this.blackPieceMaterial = data.blackPieceMaterial.ToList();
         this.blackPieceStartingX = data.blackPieceStartingX.ToList();
         this.blackPieceStartingY = data.blackPieceStartingY.ToList();
+        Debug.Log("Loaded!");
     }
 
     public void SaveData(GameData data)
     {
         data.blackTeamMaxWidth = this.blackTeamMaxWidth;
         data.whiteTeamMaxWidth = this.whiteTeamMaxWidth;
+
         data.whitePieceType = this.whitePieceType.ToArray();
         data.whitePieceMaterial = this.whitePieceMaterial.ToArray();
         data.whitePieceStartingX = this.whitePieceStartingX.ToArray();
@@ -109,6 +113,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         data.blackPieceMaterial = this.blackPieceMaterial.ToArray();
         data.blackPieceStartingX = this.blackPieceStartingX.ToArray();
         data.blackPieceStartingY = this.blackPieceStartingY.ToArray();
+        Debug.Log("Saved!");
     }
 
     private void Start()
@@ -289,7 +294,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         {
             chessPieces[startingX + whitePieceStartingX[i], whitePieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)whitePieceType[i], 0, whitePieceMaterial[i]);
         }
-        
+
         // Black Team
         for (int i = 0; i < blackPieceType.Count; i++)
         {
@@ -1016,20 +1021,20 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         {
             if (piece.type != ChessPieceType.King)
             {
-                whitePieceType.Remove(piece.index);
-                whitePieceMaterial.Remove(piece.index);
-                whitePieceStartingX.Remove(piece.index);
-                whitePieceStartingY.Remove(piece.index);
+                whitePieceType.RemoveAt(piece.index);
+                whitePieceMaterial.RemoveAt(piece.index);
+                whitePieceStartingX.RemoveAt(piece.index);
+                whitePieceStartingY.RemoveAt(piece.index);
             }
         }
         else
         {
             if (piece.type != ChessPieceType.King)
             {
-                blackPieceType.Remove(piece.index);
-                blackPieceMaterial.Remove(piece.index);
-                blackPieceStartingX.Remove(piece.index);
-                blackPieceStartingY.Remove(piece.index);
+                blackPieceType.RemoveAt(piece.index);
+                blackPieceMaterial.RemoveAt(piece.index);
+                blackPieceStartingX.RemoveAt(piece.index);
+                blackPieceStartingY.RemoveAt(piece.index);
             }
         }
     }

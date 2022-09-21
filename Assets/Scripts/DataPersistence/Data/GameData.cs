@@ -9,6 +9,9 @@ public class GameData
     public float bgMusicVolume;
     public int whiteTeamMaxWidth;
     public int blackTeamMaxWidth;
+
+    public string[] whiteTeam;
+
     public int[] whitePieceType;
     public int[] whitePieceMaterial;
     public int[] whitePieceStartingX;
@@ -24,6 +27,12 @@ public class GameData
         bgMusicVolume = 0.15f;
         whiteTeamMaxWidth = 8;
         blackTeamMaxWidth = 8;
+
+        whiteTeam = new string[]
+        {
+            "Glass Rook 0 0",
+            "Glass Knight 0 1"
+        };
 
         whitePieceType = new int[]
         {
@@ -62,7 +71,7 @@ public class GameData
 
 
 
-        blackPieceType = new int[16]
+        blackPieceType = new int[]
         {
             (int)ChessPieceType.Rook,
             (int)ChessPieceType.Knight,
@@ -82,17 +91,17 @@ public class GameData
             (int)ChessPieceType.Pawn
         };
 
-        blackPieceMaterial = new int[16]
+        blackPieceMaterial = new int[]
         {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
 
-        blackPieceStartingX = new int[16]
+        blackPieceStartingX = new int[]
         {
             0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7
         };
 
-        blackPieceStartingY = new int[16]
+        blackPieceStartingY = new int[]
         {
             0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1
         };
