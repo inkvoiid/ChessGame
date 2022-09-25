@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 714a25285ad697049882607b9dd7138f
   - enabled: 1
+    path: Assets/Scenes/CastleScreen.unity
+    guid: 6e7c8cdc4569d6c47a94213fa84940be
+  - enabled: 1
     path: Assets/Scenes/Boards/SmallTileBoard.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1

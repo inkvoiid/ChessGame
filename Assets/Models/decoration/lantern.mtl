@@ -1,0 +1,8 @@
+# Made in Blockbench 4.4.1
+newmtl m_0
+map_Kd lantern_stone_base 
+newmtl m_1
+map_Kd lantern_wood_poles 
+newmtl m_2
+map_Kd lantern_metal 
+newmtl none

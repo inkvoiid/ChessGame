@@ -29,13 +29,22 @@ public class Chessboard : MonoBehaviour, IDataPersistence
 
     [Header("Prefabs and Materials")]
     [SerializeField] private GameObject[] prefabs;
-    [SerializeField] private Material[] teamMaterials;
 
+    // Chess Piece Material Types
     [SerializeField] private Material[] basicWhiteMaterials;
     [SerializeField] private Material[] basicBlackMaterials;
 
     [SerializeField] private Material[] glassWhiteMaterials;
     [SerializeField] private Material[] glassBlackMaterials;
+
+    [SerializeField] private Material[] ceramicWhiteMaterials;
+    [SerializeField] private Material[] ceramicBlackMaterials;
+
+    [SerializeField] private Material[] stoneWhiteMaterials;
+    [SerializeField] private Material[] stoneBlackMaterials;
+
+    [SerializeField] private Material[] diamondWhiteMaterials;
+    [SerializeField] private Material[] diamondBlackMaterials;
 
     // Logic
     private ChessPiece[,] chessPieces;
@@ -62,6 +71,9 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     private int blackTeamMaxWidth;
     private int whiteTeamMaxWidth;
 
+    private List<int> whitePieceActualIndex;
+    private List<int> blackPieceActualIndex;
+
     private List<int> whitePieceType;
     private List<int> whitePieceMaterial;
     private List<int> whitePieceStartingX;
@@ -87,16 +99,17 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         this.blackTeamMaxWidth = data.blackTeamMaxWidth;
         this.whiteTeamMaxWidth = data.whiteTeamMaxWidth;
 
-        this.whitePieceType = data.whitePieceType.ToList();
-        this.whitePieceMaterial = data.whitePieceMaterial.ToList();
-        this.whitePieceStartingX = data.whitePieceStartingX.ToList();
-        this.whitePieceStartingY = data.whitePieceStartingY.ToList();
+        this.whitePieceType = data.whitePieceType;
+        this.whitePieceMaterial = data.whitePieceMaterial;
+        this.whitePieceStartingX = data.whitePieceStartingX;
+        this.whitePieceStartingY = data.whitePieceStartingY;
 
-        this.blackPieceType = data.blackPieceType.ToList();
-        this.blackPieceMaterial = data.blackPieceMaterial.ToList();
-        this.blackPieceStartingX = data.blackPieceStartingX.ToList();
-        this.blackPieceStartingY = data.blackPieceStartingY.ToList();
+        this.blackPieceType = data.blackPieceType;
+        this.blackPieceMaterial = data.blackPieceMaterial;
+        this.blackPieceStartingX = data.blackPieceStartingX;
+        this.blackPieceStartingY = data.blackPieceStartingY;
         Debug.Log("Loaded!");
+        StartGame();
     }
 
     public void SaveData(GameData data)
@@ -104,15 +117,15 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         data.blackTeamMaxWidth = this.blackTeamMaxWidth;
         data.whiteTeamMaxWidth = this.whiteTeamMaxWidth;
 
-        data.whitePieceType = this.whitePieceType.ToArray();
-        data.whitePieceMaterial = this.whitePieceMaterial.ToArray();
-        data.whitePieceStartingX = this.whitePieceStartingX.ToArray();
-        data.whitePieceStartingY = this.whitePieceStartingY.ToArray();
+        data.whitePieceType = this.whitePieceType;
+        data.whitePieceMaterial = this.whitePieceMaterial;
+        data.whitePieceStartingX = this.whitePieceStartingX;
+        data.whitePieceStartingY = this.whitePieceStartingY;
 
-        data.blackPieceType = this.blackPieceType.ToArray();
-        data.blackPieceMaterial = this.blackPieceMaterial.ToArray();
-        data.blackPieceStartingX = this.blackPieceStartingX.ToArray();
-        data.blackPieceStartingY = this.blackPieceStartingY.ToArray();
+        data.blackPieceType = this.blackPieceType;
+        data.blackPieceMaterial = this.blackPieceMaterial;
+        data.blackPieceStartingX = this.blackPieceStartingX;
+        data.blackPieceStartingY = this.blackPieceStartingY;
         Debug.Log("Saved!");
     }
 
@@ -122,7 +135,12 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         if (bgMusic.GetComponent<AudioSource>().isPlaying == false)
             bgMusic.GetComponent<AudioSource>().Play();
         bgMusic.RegisterSoundControl(toggleSound);
+    }
 
+    private void StartGame()
+    {
+        whitePieceActualIndex = new List<int>();
+        blackPieceActualIndex = new List<int>();
 
         SpawnAllPieces();
         PositionAllPieces();
@@ -170,6 +188,8 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             {
                 if (chessPieces[hitPosition.x, hitPosition.y] != null)
                 {
+
+                    Debug.Log(chessPieces[hitPosition.x, hitPosition.y].index);
                     // Is it our turn?
                     if ((chessPieces[hitPosition.x, hitPosition.y].team == 0 && isWhiteTurn) || (chessPieces[hitPosition.x, hitPosition.y].team == 1 && !isWhiteTurn))
                     {
@@ -292,13 +312,15 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         // White Team
         for (int i = 0; i < whitePieceType.Count; i++)
         {
+            whitePieceActualIndex.Add(i);
             chessPieces[startingX + whitePieceStartingX[i], whitePieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)whitePieceType[i], 0, whitePieceMaterial[i]);
         }
 
         // Black Team
         for (int i = 0; i < blackPieceType.Count; i++)
         {
-            chessPieces[(tileCountX-1)-(startingX + blackPieceStartingX[i]), (tileCountY-1)- blackPieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)blackPieceType[i], 1, blackPieceMaterial[i]);
+            blackPieceActualIndex.Add(i);
+            chessPieces[(tileCountX-1)-(startingX + blackPieceStartingX[i]), (tileCountY-1) - blackPieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)blackPieceType[i], 1, blackPieceMaterial[i]);
         }
     }
     private ChessPiece SpawnSinglePiece(int index, ChessPieceType type, int team, int material = 0)
@@ -312,43 +334,35 @@ public class Chessboard : MonoBehaviour, IDataPersistence
 
         Material[] teamMaterial;
 
-        if (piece.team == 0)
+        switch (piece.material)
         {
-            teamMaterial = basicWhiteMaterials;
-        }
-        else
-        {
-            teamMaterial = basicBlackMaterials;
+            case ChessPieceMaterial.Glass:
+                teamMaterial = piece.team == 0 ? glassWhiteMaterials : glassBlackMaterials;
+                break;
+            case ChessPieceMaterial.Ceramic:
+                teamMaterial = piece.team == 0 ? ceramicWhiteMaterials : ceramicBlackMaterials;
+                break;
+            case ChessPieceMaterial.Stone:
+                teamMaterial = piece.team == 0 ? stoneWhiteMaterials : stoneBlackMaterials;
+                break;
+            case ChessPieceMaterial.Diamond:
+                teamMaterial = piece.team == 0 ? diamondWhiteMaterials : diamondBlackMaterials;
+                break;
+            default:
+                teamMaterial = piece.team == 0 ? basicWhiteMaterials : basicBlackMaterials;
+                break;
         }
 
-        if (piece.type == ChessPieceType.Pawn)
+        piece.GetComponent<MeshRenderer>().material = piece.type switch
         {
-            piece.GetComponent<MeshRenderer>().material = teamMaterial[0];
-        }
-        else if (piece.type == ChessPieceType.Rook)
-        {
-            piece.GetComponent<MeshRenderer>().material = teamMaterial[1];
-        }
-        else if (piece.type == ChessPieceType.Knight)
-        {
-            piece.GetComponent<MeshRenderer>().material = teamMaterial[2];
-        }
-        else if (piece.type == ChessPieceType.Bishop)
-        {
-            piece.GetComponent<MeshRenderer>().material = teamMaterial[3];
-        }
-        else if (piece.type == ChessPieceType.Queen)
-        {
-            piece.GetComponent<MeshRenderer>().material = teamMaterial[4];
-        }
-        else if (piece.type == ChessPieceType.King)
-        {
-            piece.GetComponent<MeshRenderer>().material = teamMaterial[5];
-        }
-        else
-        {
-            piece.GetComponent<MeshRenderer>().material = teamMaterials[team];
-        }
+            ChessPieceType.Pawn => teamMaterial[1],
+            ChessPieceType.Rook => teamMaterial[2],
+            ChessPieceType.Knight => teamMaterial[3],
+            ChessPieceType.Bishop => teamMaterial[4],
+            ChessPieceType.Queen => teamMaterial[5],
+            ChessPieceType.King => teamMaterial[6],
+            _ => teamMaterial[0]
+        };
 
         return piece;
     }
@@ -454,7 +468,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         ResetTurn();
         if(bgMusic.GetComponent<AudioSource>().isPlaying == false)
             bgMusic.GetComponent<AudioSource>().Play();
-        amPlaying = true;
+        StartGame();
     }
 
     public void OnExitButton()
@@ -1019,22 +1033,26 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     {
         if (piece.team == 0)
         {
+            int actualPieceIndex = whitePieceActualIndex.IndexOf(piece.index);
             if (piece.type != ChessPieceType.King)
             {
-                whitePieceType.RemoveAt(piece.index);
-                whitePieceMaterial.RemoveAt(piece.index);
-                whitePieceStartingX.RemoveAt(piece.index);
-                whitePieceStartingY.RemoveAt(piece.index);
+                whitePieceType.RemoveAt(actualPieceIndex);
+                whitePieceMaterial.RemoveAt(actualPieceIndex);
+                whitePieceStartingX.RemoveAt(actualPieceIndex);
+                whitePieceStartingY.RemoveAt(actualPieceIndex);
+                whitePieceActualIndex.RemoveAt(actualPieceIndex);
             }
         }
-        else
+        else if(piece.team == 1)
         {
             if (piece.type != ChessPieceType.King)
             {
-                blackPieceType.RemoveAt(piece.index);
-                blackPieceMaterial.RemoveAt(piece.index);
-                blackPieceStartingX.RemoveAt(piece.index);
-                blackPieceStartingY.RemoveAt(piece.index);
+                int actualPieceIndex = blackPieceActualIndex.IndexOf(piece.index);
+                blackPieceType.RemoveAt(actualPieceIndex);
+                blackPieceMaterial.RemoveAt(actualPieceIndex);
+                blackPieceStartingX.RemoveAt(actualPieceIndex);
+                blackPieceStartingY.RemoveAt(actualPieceIndex);
+                blackPieceActualIndex.RemoveAt(actualPieceIndex);
             }
         }
     }

@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : MonoBehaviour, IDataPersistence
 {
     MusicController bgMusic;
     [SerializeField] GameObject toggleSound;
@@ -12,7 +13,6 @@ public class MainMenu : MonoBehaviour
         bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>(); 
         if (bgMusic.GetComponent<AudioSource>().isPlaying == false)
             bgMusic.GetComponent<AudioSource>().Play();
-        bgMusic.RegisterSoundControl(toggleSound);
     }
     public void OnClickPlay()
     {
@@ -22,12 +22,30 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
-    public void OnClickScene1()
+    public void LoadScene(int sceneNum)
     {
-        SceneManager.LoadScene(1);
+        try
+        {
+            SceneManager.LoadScene(sceneNum);
+        }
+        catch (IndexOutOfRangeException e)
+        {
+            Debug.LogError("Tried to load a scene of index " + sceneNum + ", which isn't a valid index\n" + e);
+        }
     }
-    public void OnClickScene2()
+
+    public void SaveData(GameData data)
     {
-        SceneManager.LoadScene(2);
+
+    }
+
+    public void LoadData(GameData data)
+    {
+        InitializeVariablesAfterLoad();
+    }
+
+    private void InitializeVariablesAfterLoad()
+    {
+        bgMusic.RegisterSoundControl(toggleSound);
     }
 }
