@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -16,24 +17,43 @@ public class DataPersistenceManager : MonoBehaviour
 
     private FileDataHandler dataHandler;
 
+    private string selectedSaveSlot = "test";
+
     public static DataPersistenceManager instance { get; private set; }
 
+    // Ensure only one instance of DataPersistenceManager exists
     private void Awake()
     {
         if (instance != null)
         {
-            Debug.LogError("Found More than one Data Persistence Manager in the scene.");
+            Debug.Log("Found more than one Data Persistence Manager in the scene. Destroying the newest one.");
+            Destroy(this.gameObject);
+            return;
         }
         instance = this;
+        DontDestroyOnLoad(this.gameObject);
+
+        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
         LoadGame();
+        Debug.Log("Loaded!");
     }
 
+    // Resets the data to the default values
     public void NewGame()
     {
         this.gameData = new GameData();
@@ -42,7 +62,7 @@ public class DataPersistenceManager : MonoBehaviour
     public void LoadGame()
     {
         // Load any saved data from a file using the data handler
-        this.gameData = dataHandler.Load();
+        this.gameData = dataHandler.Load(selectedSaveSlot);
 
         // if no data can be loaded, initialize to a new game
         if (this.gameData == null)
@@ -50,36 +70,47 @@ public class DataPersistenceManager : MonoBehaviour
             Debug.Log("No data was found. Initializing data to defaults.");
             NewGame();
         }
-
-        // TODO - push the loaded data to all other scripts that need it
+        
         foreach (IDataPersistence dataPersistenceObject in dataPersistenceObjects)
         {
             dataPersistenceObject.LoadData(gameData);
         }
     }
 
+    // Saves game data for each object that implements IDataPersistence
     public void SaveGame()
     {
-        // TODO - pass the data to other scripts so they can update it
         foreach (IDataPersistence dataPersistenceObject in dataPersistenceObjects)
         {
             dataPersistenceObject.SaveData(gameData);
         }
 
         // Save that data to a file using the data handler
-        dataHandler.Save(gameData);
+        dataHandler.Save(gameData, selectedSaveSlot);
     }
 
+    // Save game when the program closes
     private void OnApplicationQuit()
     {
         SaveGame();
     }
 
+    // Finds all objects that implement IDataPersistence and saves them to a list
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
         IEnumerable<IDataPersistence> dataPersistenceObjects =
             FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
 
         return new List<IDataPersistence>(dataPersistenceObjects);
+    }
+
+    public bool HasGameData()
+    {
+        return gameData != null;
+    }
+
+    public Dictionary<string, GameData> GetAllSaveSlotsGameData()
+    {
+        return dataHandler.LoadAllProfiles();
     }
 }

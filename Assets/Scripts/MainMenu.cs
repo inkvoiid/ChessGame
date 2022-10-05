@@ -10,13 +10,15 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     [SerializeField] GameObject toggleSound;
     private void Start()
     {
-        bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>(); 
+        bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>();
+        bgMusic.RegisterSoundControl(toggleSound);
         if (bgMusic.GetComponent<AudioSource>().isPlaying == false)
             bgMusic.GetComponent<AudioSource>().Play();
     }
-    public void OnClickPlay()
+    public void OnClickNewGame()
     {
-
+        DataPersistenceManager.instance.NewGame();
+        DataPersistenceManager.instance.SaveGame();
     }
     public void OnClickExit()
     {
@@ -26,7 +28,7 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     {
         try
         {
-            SceneManager.LoadScene(sceneNum);
+            SceneManager.LoadSceneAsync(sceneNum);
         }
         catch (IndexOutOfRangeException e)
         {
@@ -46,6 +48,6 @@ public class MainMenu : MonoBehaviour, IDataPersistence
 
     private void InitializeVariablesAfterLoad()
     {
-        bgMusic.RegisterSoundControl(toggleSound);
+        
     }
 }

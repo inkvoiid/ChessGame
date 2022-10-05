@@ -20,10 +20,10 @@ public class FileDataHandler
         this.useEncryption = useEncryption;
     }
 
-    public GameData Load()
+    public GameData Load(string saveSlot)
     {
         // Use Path.Combine to get a full path which isn't operating system dependent.
-        string fullPath = Path.Combine(dataDirectoryPath, dataFileName);
+        string fullPath = Path.Combine(dataDirectoryPath, saveSlot, dataFileName);
         GameData loadedData = null;
         if (File.Exists(fullPath))
         {
@@ -55,10 +55,10 @@ public class FileDataHandler
         return loadedData;
     }
 
-    public void Save(GameData data)
+    public void Save(GameData data, string saveSlot)
     {
         // Use Path.Combine to get a full path which isn't operating system dependent.
-        string fullPath = Path.Combine(dataDirectoryPath, dataFileName);
+        string fullPath = Path.Combine(dataDirectoryPath, saveSlot, dataFileName);
         try
         {
             // Create the directory the file will be written to if it doesn't already exist
@@ -86,6 +86,40 @@ public class FileDataHandler
         {
             Debug.LogError("Error occurred when trying to save data to file: " + fullPath + "\n" + e);
         }
+    }
+
+    public Dictionary<string, GameData> LoadAllProfiles()
+    {
+        Dictionary<string, GameData> saveSlotDictionary = new Dictionary<string, GameData>();
+
+        // Loop over all directory names in the data directory path
+        IEnumerable<DirectoryInfo> dirInfos = new DirectoryInfo(dataDirectoryPath).EnumerateDirectories();
+        foreach (var dirInfo in dirInfos)
+        {
+            string saveSlot = dirInfo.Name;
+
+            // Check for savegame data in directory before adding it
+            string fullPath = Path.Combine(dataDirectoryPath, saveSlot, dataFileName);
+            if (!File.Exists(fullPath))
+            {
+                Debug.LogWarning("Skipping directory when loading save slots because it doesn't contain savegame data: " + saveSlot);
+                continue;
+            }
+
+            // Load the game data for this save slot and put it in the dictionary
+            GameData saveSlotData = Load(saveSlot);
+
+            if (saveSlotData != null)
+            {
+                saveSlotDictionary.Add(saveSlot, saveSlotData);
+            }
+            else
+            {
+                Debug.LogError("Tried to load profile but an error occured. Save slot: " + saveSlot);
+            }
+        }
+
+        return saveSlotDictionary;
     }
 
     // Simple XOR encryption for Json playerData

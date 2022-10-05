@@ -473,6 +473,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
 
     public void OnExitButton()
     {
+        DataPersistenceManager.instance.SaveGame();
         SceneManager.LoadScene(0);
     }
 
