@@ -8,6 +8,10 @@ public class MainMenu : MonoBehaviour, IDataPersistence
 {
     MusicController bgMusic;
     [SerializeField] GameObject toggleSound;
+
+    [Header("Menu Navigation")] 
+    [SerializeField] private SaveSlotsMenu saveSlotsMenu;
+
     private void Start()
     {
         bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>();
@@ -17,9 +21,16 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     }
     public void OnClickNewGame()
     {
-        DataPersistenceManager.instance.NewGame();
-        DataPersistenceManager.instance.SaveGame();
+        saveSlotsMenu.ActivateMenu(false);
+        this.DeactivateMenu();
     }
+
+    public void OnClickLoadGame()
+    {
+        saveSlotsMenu.ActivateMenu(true);
+        this.DeactivateMenu();
+    }
+
     public void OnClickExit()
     {
         Application.Quit();
@@ -49,5 +60,15 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     private void InitializeVariablesAfterLoad()
     {
         
+    }
+
+    public void ActivateMenu()
+    {
+        this.gameObject.SetActive(true);
+    }
+
+    public void DeactivateMenu()
+    {
+        this.gameObject.SetActive(false);
     }
 }

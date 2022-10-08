@@ -53,6 +53,14 @@ public class DataPersistenceManager : MonoBehaviour
         Debug.Log("Loaded!");
     }
 
+    public void ChangeSelectedSaveSlot(string newSaveSlot)
+    {
+        // Swap to the selected save slot
+        this.selectedSaveSlot = newSaveSlot;
+        // Load the data from the new save slot
+        LoadGame();
+    }
+
     // Resets the data to the default values
     public void NewGame()
     {

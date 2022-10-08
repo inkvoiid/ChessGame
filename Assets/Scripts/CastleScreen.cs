@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using System;
+using UnityEngine.SceneManagement;
 
 public class CastleScreen : MonoBehaviour, IDataPersistence
 {
@@ -38,6 +40,8 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
 
     public void SaveData(GameData data)
     {
+        data.lastPlayed = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
+
         data.whitePieceType = this.whitePieceType;
         data.whitePieceMaterial = this.whitePieceMaterial;
 
@@ -48,7 +52,7 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
         data.blackTeamMaxWidth = this.blackTeamMaxWidth;
         data.blackTeamMaxHeight = this.blackTeamMaxHeight;
         data.blackTeamMaxSquad = this.blackTeamMaxWidth * this.blackTeamMaxWidth;
-        Debug.Log("Saved!");
+        Debug.Log("Saved from CastleScreen Script!");
     }
 
     // Start is called before the first frame update
@@ -62,12 +66,21 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
         
     }
 
+    public void LoadScene(int sceneNum)
+    {
+        try
+        {
+            SceneManager.LoadSceneAsync(sceneNum);
+        }
+        catch (IndexOutOfRangeException e)
+        {
+            Debug.LogError("Tried to load a scene of index " + sceneNum + ", which isn't a valid index\n" + e);
+        }
+    }
+
     public void UpdateCurrentSquadDisplay()
     {
-        Debug.Log(currentSquadDisplay.name);
         currentSquadDisplay.GetComponent<TextMeshProUGUI>().text = "gay";
-        Debug.Log(whitePieceType.Count);
-        Debug.Log(whiteTeamMaxSquad);
         currentSquadDisplay.GetComponent<TextMeshProUGUI>().text = "Current Squad (" + whitePieceType.Count + " of " + whiteTeamMaxSquad + ")";
     }
 }

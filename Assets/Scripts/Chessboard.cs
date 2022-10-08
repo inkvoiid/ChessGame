@@ -114,6 +114,10 @@ public class Chessboard : MonoBehaviour, IDataPersistence
 
     public void SaveData(GameData data)
     {
+        Debug.Log("Hi");
+        data.lastPlayed = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
+        Debug.Log(data.lastPlayed = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"));
+
         data.blackTeamMaxWidth = this.blackTeamMaxWidth;
         data.whiteTeamMaxWidth = this.whiteTeamMaxWidth;
 

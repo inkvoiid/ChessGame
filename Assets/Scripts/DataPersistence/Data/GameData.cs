@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,9 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    public string saveSlotName;
+    public string dateCreated;
+    public string lastPlayed;
     public float bgMusicVolume;
 
     public int whiteTeamMaxWidth;
@@ -28,6 +32,9 @@ public class GameData
 
     public GameData()
     {
+        saveSlotName = "An Unnamed Slot";
+        dateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
+        lastPlayed = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
         bgMusicVolume = 0.15f;
         whiteTeamMaxWidth = 8;
         whiteTeamMaxHeight = 2;
