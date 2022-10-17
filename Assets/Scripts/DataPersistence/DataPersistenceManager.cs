@@ -17,7 +17,7 @@ public class DataPersistenceManager : MonoBehaviour
 
     private FileDataHandler dataHandler;
 
-    private string selectedSaveSlot = "test";
+    private string selectedSaveSlot = "save1";
 
     public static DataPersistenceManager instance { get; private set; }
 

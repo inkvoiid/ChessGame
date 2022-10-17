@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 66339066}
   - component: {fileID: 66339065}
   - component: {fileID: 66339064}
+  - component: {fileID: 66339067}
   - component: {fileID: 66339063}
   m_Layer: 5
   m_Name: Back
@@ -182,10 +183,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1305379293}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 66339067}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -198,10 +199,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1305379293}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 66339067}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonNotHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -328,6 +329,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66339061}
   m_CullTransparentMesh: 1
+--- !u!114 &66339067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66339061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8bf4f628337a458b776047d5a2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  border: {fileID: 1305379295}
 --- !u!1 &74180713
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,6 +498,7 @@ GameObject:
   - component: {fileID: 129635359}
   - component: {fileID: 129635358}
   - component: {fileID: 129635357}
+  - component: {fileID: 129635360}
   - component: {fileID: 129635356}
   m_Layer: 5
   m_Name: Quit
@@ -531,10 +546,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 74180713}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 129635360}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -547,10 +562,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 74180713}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 129635360}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonNotHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -653,6 +668,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 129635354}
   m_CullTransparentMesh: 1
+--- !u!114 &129635360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129635354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8bf4f628337a458b776047d5a2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  border: {fileID: 74180715}
 --- !u!1 &139722385
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +693,7 @@ GameObject:
   - component: {fileID: 139722390}
   - component: {fileID: 139722389}
   - component: {fileID: 139722388}
+  - component: {fileID: 139722391}
   - component: {fileID: 139722387}
   m_Layer: 5
   m_Name: 14*14 Tiles
@@ -712,10 +741,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 965726387}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 139722391}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -728,10 +757,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 965726387}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 139722391}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonNotHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -834,6 +863,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 139722385}
   m_CullTransparentMesh: 1
+--- !u!114 &139722391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139722385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8bf4f628337a458b776047d5a2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  border: {fileID: 965726389}
 --- !u!1 &159991661
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,6 +1006,7 @@ GameObject:
   - component: {fileID: 286246305}
   - component: {fileID: 286246304}
   - component: {fileID: 286246303}
+  - component: {fileID: 286246306}
   - component: {fileID: 286246302}
   m_Layer: 5
   m_Name: New Game
@@ -1011,10 +1054,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1245117916}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 286246306}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1027,10 +1070,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1245117916}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 286246306}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonNotHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1145,6 +1188,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286246300}
   m_CullTransparentMesh: 1
+--- !u!114 &286246306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286246300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8bf4f628337a458b776047d5a2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  border: {fileID: 1245117918}
 --- !u!1 &308330230
 GameObject:
   m_ObjectHideFlags: 0
@@ -1779,6 +1835,141 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511376277}
   m_CullTransparentMesh: 1
+--- !u!1 &538025374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 538025375}
+  - component: {fileID: 538025377}
+  - component: {fileID: 538025376}
+  m_Layer: 5
+  m_Name: Subtitle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &538025375
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538025374}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2089778411}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -32.499996}
+  m_SizeDelta: {x: -35, y: -65.00001}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &538025376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538025374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Slot: Cheese please'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 5bd0e6637dab4304db15f2b62b4ba551, type: 2}
+  m_sharedMaterial: {fileID: -4661103419266818463, guid: 5bd0e6637dab4304db15f2b62b4ba551, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4288651167
+  m_fontColor: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 35
+  m_fontSizeBase: 35
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 0
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 1
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &538025377
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538025374}
+  m_CullTransparentMesh: 1
 --- !u!1 &542660602
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,6 +2347,7 @@ GameObject:
   - component: {fileID: 671263282}
   - component: {fileID: 671263281}
   - component: {fileID: 671263280}
+  - component: {fileID: 671263283}
   - component: {fileID: 671263279}
   m_Layer: 5
   m_Name: 8*8 Tiles
@@ -2203,10 +2395,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1923218111}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 671263283}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2219,10 +2411,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1923218111}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 671263283}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonNotHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2325,6 +2517,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671263277}
   m_CullTransparentMesh: 1
+--- !u!114 &671263283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671263277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8bf4f628337a458b776047d5a2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  border: {fileID: 1923218113}
 --- !u!1 &752810236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2634,7 +2839,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2089778411}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2714,8 +2919,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 17.5}
+  m_SizeDelta: {x: 0, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &867860695
 MonoBehaviour:
@@ -3142,6 +3347,7 @@ GameObject:
   - component: {fileID: 970692312}
   - component: {fileID: 970692311}
   - component: {fileID: 970692310}
+  - component: {fileID: 970692313}
   - component: {fileID: 970692309}
   m_Layer: 5
   m_Name: Load Game
@@ -3189,10 +3395,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1706737547}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 970692313}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3205,10 +3411,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1706737547}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 970692313}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonNotHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3323,6 +3529,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970692307}
   m_CullTransparentMesh: 1
+--- !u!114 &970692313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970692307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8bf4f628337a458b776047d5a2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  border: {fileID: 1706737549}
 --- !u!1 &1040671685
 GameObject:
   m_ObjectHideFlags: 0
@@ -3335,6 +3554,7 @@ GameObject:
   - component: {fileID: 1040671690}
   - component: {fileID: 1040671689}
   - component: {fileID: 1040671688}
+  - component: {fileID: 1040671691}
   - component: {fileID: 1040671687}
   m_Layer: 5
   m_Name: Back
@@ -3382,10 +3602,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1240618665}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 1040671691}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3398,10 +3618,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1240618665}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 1040671691}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonNotHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3516,6 +3736,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1040671685}
   m_CullTransparentMesh: 1
+--- !u!114 &1040671691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040671685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8bf4f628337a458b776047d5a2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  border: {fileID: 1240618667}
 --- !u!1 &1158245373
 GameObject:
   m_ObjectHideFlags: 0
@@ -3739,7 +3972,7 @@ GameObject:
   - component: {fileID: 1240618668}
   - component: {fileID: 1240618667}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4178,6 +4411,7 @@ GameObject:
   - component: {fileID: 1492013270}
   - component: {fileID: 1492013269}
   - component: {fileID: 1492013268}
+  - component: {fileID: 1492013271}
   - component: {fileID: 1492013267}
   m_Layer: 5
   m_Name: Options
@@ -4225,10 +4459,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1158245373}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 1492013271}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4241,10 +4475,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1158245373}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 1492013271}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonNotHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4335,6 +4569,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492013265}
   m_CullTransparentMesh: 1
+--- !u!114 &1492013271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492013265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8bf4f628337a458b776047d5a2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  border: {fileID: 1158245375}
 --- !u!1 &1492689257
 GameObject:
   m_ObjectHideFlags: 0
@@ -5015,6 +5262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toggleSound: {fileID: 391666187}
   saveSlotsMenu: {fileID: 561829855}
+  continueButtonSubtitle: {fileID: 538025376}
 --- !u!1 &1664900087
 GameObject:
   m_ObjectHideFlags: 0
@@ -5482,6 +5730,7 @@ GameObject:
   - component: {fileID: 1736139865}
   - component: {fileID: 1736139864}
   - component: {fileID: 1736139863}
+  - component: {fileID: 1736139866}
   - component: {fileID: 1736139862}
   m_Layer: 5
   m_Name: CastleScreen
@@ -5529,10 +5778,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1390601123}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 1736139866}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5545,10 +5794,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1390601123}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 1736139866}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonNotHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5651,6 +5900,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736139860}
   m_CullTransparentMesh: 1
+--- !u!114 &1736139866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736139860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8bf4f628337a458b776047d5a2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  border: {fileID: 1390601125}
 --- !u!1 &1892144016
 GameObject:
   m_ObjectHideFlags: 0
@@ -6202,6 +6464,7 @@ GameObject:
   - component: {fileID: 2089778415}
   - component: {fileID: 2089778414}
   - component: {fileID: 2089778413}
+  - component: {fileID: 2089778416}
   - component: {fileID: 2089778412}
   m_Layer: 5
   m_Name: Continue
@@ -6223,6 +6486,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 867860694}
+  - {fileID: 538025375}
   - {fileID: 789210564}
   m_Father: {fileID: 1604071434}
   m_RootOrder: 1
@@ -6230,7 +6494,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: -326, y: 300}
-  m_SizeDelta: {x: 350, y: 75}
+  m_SizeDelta: {x: 350, y: 122.87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2089778412
 MonoBehaviour:
@@ -6249,10 +6513,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 789210563}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 2089778416}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6265,10 +6529,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 789210563}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 2089778416}
+          m_TargetAssemblyTypeName: CustomButtonBehaviour, Assembly-CSharp
+          m_MethodName: ButtonNotHovered
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6395,6 +6659,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2089778410}
   m_CullTransparentMesh: 1
+--- !u!114 &2089778416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089778410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f8bf4f628337a458b776047d5a2e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  border: {fileID: 789210565}
 --- !u!1 &2107006152
 GameObject:
   m_ObjectHideFlags: 0

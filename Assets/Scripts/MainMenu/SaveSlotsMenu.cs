@@ -27,8 +27,11 @@ public class SaveSlotsMenu : MonoBehaviour
         
         DataPersistenceManager.instance.ChangeSelectedSaveSlot(saveSlot.GetSaveSlotId());
 
-        if(!isLoadingGame)
+        if (!isLoadingGame)
+        {
             DataPersistenceManager.instance.NewGame();
+            DataPersistenceManager.instance.SaveGame();
+        }
 
         SceneManager.LoadSceneAsync(1);
     }

@@ -1,0 +1,6 @@
+# Made in Blockbench 4.4.2
+newmtl m_1
+map_Kd mediumfieldboard.png 
+newmtl m_3
+map_Kd mediumfieldboard_grass.png 
+newmtl none

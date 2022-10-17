@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,10 @@ public class MainMenu : MonoBehaviour, IDataPersistence
 
     [Header("Menu Navigation")] 
     [SerializeField] private SaveSlotsMenu saveSlotsMenu;
+
+    [SerializeField] private TextMeshProUGUI continueButtonSubtitle;
+
+    private string saveSlotName;
 
     private void Start()
     {
@@ -54,12 +59,13 @@ public class MainMenu : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        this.saveSlotName = data.saveSlotName;
         InitializeVariablesAfterLoad();
     }
 
     private void InitializeVariablesAfterLoad()
     {
-        
+        continueButtonSubtitle.text = "Slot: " + saveSlotName;
     }
 
     public void ActivateMenu()
