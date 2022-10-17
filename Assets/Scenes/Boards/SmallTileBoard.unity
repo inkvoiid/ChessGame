@@ -1827,7 +1827,7 @@ GameObject:
   - component: {fileID: 857074478}
   - component: {fileID: 857074474}
   m_Layer: 5
-  m_Name: Exit
+  m_Name: Quit to Castle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4061,7 +4061,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit
+  m_text: Quit to Castle
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5bd0e6637dab4304db15f2b62b4ba551, type: 2}
   m_sharedMaterial: {fileID: -4661103419266818463, guid: 5bd0e6637dab4304db15f2b62b4ba551, type: 2}
