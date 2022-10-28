@@ -42,6 +42,17 @@ public class Pawn : ChessPiece
                 r.Add(new Vector2Int(currentX - 1, currentY + direction));
 
 
+        // Abilities
+
+        // Sidestep
+
+        // Left
+        if (abilitySidestep == true && board[currentX-1, currentY] == null)
+            r.Add(new Vector2Int(currentX-1, currentY));
+        // Right
+        if (abilitySidestep == true && board[currentX + 1, currentY] == null)
+            r.Add(new Vector2Int(currentX + 1, currentY));
+
         return r;
     }
 
