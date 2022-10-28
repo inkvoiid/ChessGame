@@ -33,10 +33,12 @@ public class CameraController : MonoBehaviour
 
         }
 
-        if (Input.mouseScrollDelta.y > 0 || Input.mouseScrollDelta.y < 0 && Chessboard.currentlyDragging == null)
-        {
-            Chessboard.getCurrentCamera().fieldOfView -= Input.mouseScrollDelta.y + Time.deltaTime * 10;
-        }
+        // Zoom function not fully implemented
+
+        //if (Input.mouseScrollDelta.y > 0 || Input.mouseScrollDelta.y < 0 && Chessboard.currentlyDragging == null)
+        //{
+        //    Chessboard.GetCurrentCamera().fieldOfView -= Input.mouseScrollDelta.y + Time.deltaTime * 10;
+        //}
     }
 
     public void OnTopDownButton()
