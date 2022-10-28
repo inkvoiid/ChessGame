@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -67,6 +68,8 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     MusicController bgMusic;
     [SerializeField] private GameObject toggleSound;
 
+    [SerializeField] private TextMeshProUGUI moveHistory;
+
     // Custom Chess Team
     private int blackTeamMaxWidth;
     private int whiteTeamMaxWidth;
@@ -114,7 +117,6 @@ public class Chessboard : MonoBehaviour, IDataPersistence
 
     public void SaveData(GameData data)
     {
-        Debug.Log("Hi");
         data.lastPlayed = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
         Debug.Log(data.lastPlayed = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"));
 
@@ -139,6 +141,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         if (bgMusic.GetComponent<AudioSource>().isPlaying == false)
             bgMusic.GetComponent<AudioSource>().Play();
         bgMusic.RegisterSoundControl(toggleSound);
+        moveHistory.text = "";
     }
 
     private void StartGame()
@@ -446,6 +449,9 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         availableMoves.Clear();
         moveList.Clear();
 
+        whitePieceActualIndex.Clear();
+        blackPieceActualIndex.Clear();
+
         // Clean up
         for (int x = 0; x < tileCountX; x++)
         {
@@ -467,11 +473,11 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         deadWhitePieces.Clear();
         deadBlackPieces.Clear();
 
-        SpawnAllPieces();
         PositionAllPieces();
         ResetTurn();
         if(bgMusic.GetComponent<AudioSource>().isPlaying == false)
             bgMusic.GetComponent<AudioSource>().Play();
+        moveHistory.text = "";
         StartGame();
     }
 
@@ -979,6 +985,10 @@ public class Chessboard : MonoBehaviour, IDataPersistence
 
         DisplayCheck();
 
+        if (moveHistory.text != "")
+            moveHistory.text += "\n";
+
+        moveHistory.text += (chessPieces[moveList[^1][1].x, moveList[^1][1].y].team == 0 ? "White":"Black") + " " + chessPieces[moveList[^1][1].x, moveList[^1][1].y].type + ": " + moveList[^1][0] + " to " + moveList[^1][1];
         Debug.Log("Moved from " + moveList[moveList.Count - 1][0] + " to " + moveList[moveList.Count - 1][1]);
 
         return true;
@@ -1001,7 +1011,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     }
 
     // Get camera for other classes
-    public static Camera getCurrentCamera()
+    public static Camera GetCurrentCamera()
     {
         return currentCamera;
     }
@@ -1018,7 +1028,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         if (isWhiteTurn)
             GameObject.Find("TeamOverlay").GetComponent<Image>().color = Color.white;
         else
-            GameObject.Find("TeamOverlay").GetComponent<Image>().color = new Color32(32, 32, 32, 255);
+            GameObject.Find("TeamOverlay").GetComponent<Image>().color = new Color32(19, 19, 19, 255);
     }
 
     public void TogglePauseScreen()
