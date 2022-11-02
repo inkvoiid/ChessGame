@@ -12,9 +12,13 @@ public class GameData
     public string lastPlayed;
     public float bgMusicVolume;
 
+    public int whiteTeamGold;
+
     public int whiteTeamMaxWidth;
     public int whiteTeamMaxHeight;
     public int whiteTeamMaxSquad;
+
+    public int blackTeamGold;
 
     public int blackTeamMaxWidth;
     public int blackTeamMaxHeight;
@@ -24,11 +28,15 @@ public class GameData
     public List<int> whitePieceMaterial;
     public List<int> whitePieceStartingX;
     public List<int> whitePieceStartingY;
+    public List<string> whitePieceAbilities;
+    public List<bool> whitePieceActive;
 
     public List<int> blackPieceType;
     public List<int> blackPieceMaterial;
     public List<int> blackPieceStartingX;
     public List<int> blackPieceStartingY;
+    public List<string> blackPieceAbilities;
+    public List<bool> blackPieceActive;
 
     public GameData()
     {
@@ -36,9 +44,14 @@ public class GameData
         dateCreated = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
         lastPlayed = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
         bgMusicVolume = 0.15f;
+
+        whiteTeamGold = 0;
+
         whiteTeamMaxWidth = 8;
         whiteTeamMaxHeight = 2;
         whiteTeamMaxSquad = whiteTeamMaxWidth * whiteTeamMaxHeight;
+
+        blackTeamGold = 0;
 
         blackTeamMaxWidth = 8;
         blackTeamMaxHeight = 2;
@@ -79,7 +92,15 @@ public class GameData
             0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1
         };
 
+        whitePieceAbilities = new List<string>
+        {
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
+        };
 
+        whitePieceActive = new List<bool>
+        {
+            true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true
+        };
 
         blackPieceType = new List<int>
         {
@@ -114,6 +135,16 @@ public class GameData
         blackPieceStartingY = new List<int>
         {
             0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1
+        };
+
+        blackPieceAbilities = new List<string>
+        {
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
+        };
+
+        blackPieceActive = new List<bool>
+        {
+            true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true
         };
     }
 }

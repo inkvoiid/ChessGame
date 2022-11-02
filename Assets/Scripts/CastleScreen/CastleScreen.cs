@@ -9,13 +9,18 @@ using UnityEngine.SceneManagement;
 public class CastleScreen : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private GameObject currentSquadDisplay;
+    [SerializeField] private LoadoutManager loadoutScreen;
+    [SerializeField] private UpgradeManager upgradeScreen;
 
-    private List<int> whitePieceType;
-    private List<int> whitePieceMaterial;
-
-    private int whiteTeamMaxWidth;
-    private int whiteTeamMaxHeight;
-    private int whiteTeamMaxSquad;
+    public static List<int> whitePieceType;
+    public static List<int> whitePieceMaterial;
+    public static int whiteTeamMaxHeight;
+    public static int whiteTeamMaxWidth;
+    public static List<string> whitePieceAbilities;
+    public static List<bool> whitePieceActive;
+    public static List<int> whitePieceStartingX;
+    public static List<int> whitePieceStartingY;
+    private static int whiteTeamMaxSquad;
 
     private int blackTeamMaxWidth;
     private int blackTeamMaxHeight;
@@ -24,12 +29,12 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
 
-        this.whitePieceType = data.whitePieceType;
-        this.whitePieceMaterial = data.whitePieceMaterial;
+        whitePieceType = data.whitePieceType;
+        whitePieceMaterial = data.whitePieceMaterial;
 
-        this.whiteTeamMaxWidth = data.whiteTeamMaxWidth;
-        this.whiteTeamMaxHeight = data.whiteTeamMaxHeight;
-        this.whiteTeamMaxSquad = data.whiteTeamMaxWidth * data.blackTeamMaxHeight;
+        whiteTeamMaxWidth = data.whiteTeamMaxWidth;
+        whiteTeamMaxHeight = data.whiteTeamMaxHeight;
+        whiteTeamMaxSquad = data.whiteTeamMaxWidth * data.blackTeamMaxHeight;
 
         this.blackTeamMaxWidth = data.blackTeamMaxWidth;
         this.blackTeamMaxHeight = data.blackTeamMaxHeight;
@@ -42,12 +47,12 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
     {
         data.lastPlayed = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
 
-        data.whitePieceType = this.whitePieceType;
-        data.whitePieceMaterial = this.whitePieceMaterial;
+        data.whitePieceType = whitePieceType;
+        data.whitePieceMaterial = whitePieceMaterial;
 
-        data.whiteTeamMaxWidth = this.whiteTeamMaxWidth;
-        data.whiteTeamMaxHeight = this.whiteTeamMaxHeight;
-        data.whiteTeamMaxSquad = this.whiteTeamMaxWidth * this.whiteTeamMaxHeight;
+        data.whiteTeamMaxWidth = whiteTeamMaxWidth;
+        data.whiteTeamMaxHeight = whiteTeamMaxHeight;
+        data.whiteTeamMaxSquad = whiteTeamMaxWidth * whiteTeamMaxHeight;
 
         data.blackTeamMaxWidth = this.blackTeamMaxWidth;
         data.blackTeamMaxHeight = this.blackTeamMaxHeight;
@@ -58,6 +63,8 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
+        loadoutScreen.DeactivateMenu();
+        upgradeScreen.DeactivateMenu();
     }
 
     // Update is called once per frame

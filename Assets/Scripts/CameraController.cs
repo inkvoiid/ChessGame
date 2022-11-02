@@ -13,14 +13,19 @@ public class CameraController : MonoBehaviour
     private bool isTopDown = false;
     private Vector3 lastPos = Vector3.zero;
 
+    private Vector3 desiredRotation;
+
+
     private void Start()
     {
         transform.eulerAngles = new Vector3(60, 0, 0);
+        desiredRotation = transform.eulerAngles;
     }
 
     // Update is called once per frame
     private void Update()
     {
+        
         if (Input.GetMouseButton(1) && Chessboard.currentlyDragging == null && !isTopDown && Chessboard.amPlaying == true)
         {
             rotationX = speed * -Input.GetAxis("Mouse Y");
