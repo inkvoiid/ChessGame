@@ -4497,6 +4497,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1587419535}
     m_Modifications:
+    - target: {fileID: 2592313134171437151, guid: 2676b87e22df73b46a21d25eacb5377c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 9.814941
+      objectReference: {fileID: 0}
     - target: {fileID: 2592313135359590427, guid: 2676b87e22df73b46a21d25eacb5377c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -7462,8 +7466,6 @@ MonoBehaviour:
     - m_Text: Bishop
       m_Image: {fileID: 0}
     - m_Text: Queen
-      m_Image: {fileID: 0}
-    - m_Text: King
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

@@ -381,7 +381,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         // White Team
         for (int i = 0; i < whitePieceType.Count; i++)
         {
-            if (whitePieceStartingX[i] < 0 || whitePieceStartingY[i] < 0) continue;
+            if (startingX + whitePieceStartingX[i] < 0 || whitePieceStartingY[i] < 0) continue;
             if (whitePieceActive[i])
             {
                 if ((startingX + whitePieceStartingX[i]) <= tileCountX && whitePieceStartingY[i] <= tileCountY)
@@ -402,7 +402,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         // Black Team
         for (int i = 0; i < blackPieceType.Count; i++)
         {
-            if (blackPieceStartingX[i] < 0 || blackPieceStartingY[i] < 0) continue;
+            if (startingX + blackPieceStartingX[i] < 0 || blackPieceStartingY[i] < 0) continue;
             if (blackPieceActive[i])
             {
                 if ((startingX + blackPieceStartingX[i]) <= tileCountX && blackPieceStartingY[i] <= tileCountY)
@@ -767,8 +767,6 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     private void DisplayCheck()
     {
         // Disable both check notifications
-        checkNotif.transform.GetChild(0).gameObject.SetActive(false);
-        checkNotif.transform.GetChild(1).gameObject.SetActive(false);
 
         // For every tile
         for (int x = 0; x < tileCountX; x++)
@@ -790,6 +788,8 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                                 // Set the piece to having the king in check
                                 Debug.Log(chessPieces[x,y].type + " at (" + x + ", " + y + ") has the enemy in check!");
                                 chessPieces[x,y].hasKingInCheck = true;
+
+                                break;
                             }
                             else
                             {
@@ -798,15 +798,49 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                             }
                         }
                     }
-
-                    // If the piece has the enemy king in check, tell us
-                    if (chessPieces[x, y].hasKingInCheck == true)
-                    {
-                        checkNotif.transform.GetChild(chessPieces[x, y].team == 0 ? 1 : 0).gameObject.SetActive(true);
-                    }
                 }
             }
             
+        }
+
+        foreach (var chessPiece in chessPieces)
+        {
+            if (chessPiece != null)
+            {
+                if (chessPiece.team == 0)
+                {
+                    // If the piece has the enemy king in check, tell us
+                    if (chessPiece.hasKingInCheck == true)
+                    {
+                        checkNotif.transform.GetChild(chessPiece.team == 0 ? 1 : 0).gameObject.SetActive(true);
+                        break;
+                    }
+                    else
+                    {
+                        checkNotif.transform.GetChild(1).gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+
+        foreach (var chessPiece in chessPieces)
+        {
+            if (chessPiece != null)
+            {
+                if (chessPiece.team == 1)
+                {
+                    // If the piece has the enemy king in check, tell us
+                    if (chessPiece.hasKingInCheck == true)
+                    {
+                        checkNotif.transform.GetChild(chessPiece.team == 0 ? 1 : 0).gameObject.SetActive(true);
+                        break;
+                    }
+                    else
+                    {
+                        checkNotif.transform.GetChild(0).gameObject.SetActive(false);
+                    }
+                }
+            }
         }
     }
 

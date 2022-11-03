@@ -18,8 +18,8 @@ public class TrainUnitsManager : MonoBehaviour
                 CastleScreen.whitePieceMaterial.Add(material.value + 1);
                 CastleScreen.whitePieceAbilities.Add("");
                 CastleScreen.whitePieceActive.Add(true);
-                CastleScreen.whitePieceStartingX.Add(-1);
-                CastleScreen.whitePieceStartingY.Add(-1);
+                CastleScreen.whitePieceStartingX.Add(-4);
+                CastleScreen.whitePieceStartingY.Add(-4);
             }
         }
         else
@@ -30,8 +30,8 @@ public class TrainUnitsManager : MonoBehaviour
                 CastleScreen.blackPieceMaterial.Add(material.value + 1);
                 CastleScreen.blackPieceAbilities.Add("");
                 CastleScreen.blackPieceActive.Add(true);
-                CastleScreen.blackPieceStartingX.Add(-1);
-                CastleScreen.blackPieceStartingY.Add(-1);
+                CastleScreen.blackPieceStartingX.Add(-4);
+                CastleScreen.blackPieceStartingY.Add(-4);
             }
         }
         DataPersistenceManager.instance.SaveGame();
