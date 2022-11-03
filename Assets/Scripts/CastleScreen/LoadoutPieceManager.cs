@@ -14,47 +14,88 @@ public class LoadoutPieceManager : MonoBehaviour
     {
         // Store index
         index = ind;
-
-        // Fill X, Y input fields with correct values
-        xInput.text = ""+ CastleScreen.whitePieceStartingX[index];
-        yInput.text = "" + CastleScreen.whitePieceStartingY[index];
-
-        // Generate Type of Piece
-        string type = CastleScreen.whitePieceType[index] switch
+        if (CastleScreen.isWhiteTeam)
         {
-            1 => "Pawn",
-            2 => "Rook",
-            3 => "Knight",
-            4 => "Bishop",
-            5 => "Queen",
-            6 => "King",
-            _ => "Unknown"
-        };
+            // Fill X, Y input fields with correct values
+            xInput.text = "" + CastleScreen.whitePieceStartingX[index];
+            yInput.text = "" + CastleScreen.whitePieceStartingY[index];
 
-        string material = CastleScreen.whitePieceMaterial[index] switch
+            // Generate Type of Piece
+            string type = CastleScreen.whitePieceType[index] switch
+            {
+                1 => "Pawn",
+                2 => "Rook",
+                3 => "Knight",
+                4 => "Bishop",
+                5 => "Queen",
+                6 => "King",
+                _ => "Unknown"
+            };
+
+            string material = CastleScreen.whitePieceMaterial[index] switch
+            {
+                1 => "Glass",
+                2 => "Ceramic",
+                3 => "Stone",
+                4 => "Diamond",
+                _ => "Basic"
+            };
+
+            title.text = material + " " + type;
+
+            abilities.text = CastleScreen.whitePieceAbilities[index];
+        }
+        else
         {
-            1 => "Glass",
-            2 => "Ceramic",
-            3 => "Stone",
-            4 => "Diamond",
-            _ => "Basic"
-        };
+            // Fill X, Y input fields with correct values
+            xInput.text = "" + CastleScreen.blackPieceStartingX[index];
+            yInput.text = "" + CastleScreen.blackPieceStartingY[index];
 
-        title.text = material + " " + type;
+            // Generate Type of Piece
+            string type = CastleScreen.blackPieceType[index] switch
+            {
+                1 => "Pawn",
+                2 => "Rook",
+                3 => "Knight",
+                4 => "Bishop",
+                5 => "Queen",
+                6 => "King",
+                _ => "Unknown"
+            };
 
-        abilities.text = CastleScreen.whitePieceAbilities[index];
+            string material = CastleScreen.blackPieceMaterial[index] switch
+            {
+                1 => "Glass",
+                2 => "Ceramic",
+                3 => "Stone",
+                4 => "Diamond",
+                _ => "Basic"
+            };
+
+            title.text = material + " " + type;
+
+            abilities.text = CastleScreen.blackPieceAbilities[index];
+        }
     }
 
     public void ResetPieceLocation()
     {
-        // Fill X, Y input fields with correct values
-        xInput.text = "" + CastleScreen.whitePieceStartingX[index];
-        yInput.text = "" + CastleScreen.whitePieceStartingY[index];
+        if (CastleScreen.isWhiteTeam)
+        {
+            // Fill X, Y input fields with correct values
+            xInput.text = "" + CastleScreen.whitePieceStartingX[index];
+            yInput.text = "" + CastleScreen.whitePieceStartingY[index];
+        }
+        else
+        {
+            // Fill X, Y input fields with correct values
+            xInput.text = "" + CastleScreen.blackPieceStartingX[index];
+            yInput.text = "" + CastleScreen.blackPieceStartingY[index];
+        }
     }
 
     public void ChangePieceLocation()
     {
-        bool spotAlreadyTaken = false;
         int desiredX, desiredY;
         bool validX = int.TryParse(xInput.text, out desiredX);
         bool validY = int.TryParse(yInput.text, out desiredY);
@@ -63,27 +104,52 @@ public class LoadoutPieceManager : MonoBehaviour
             Debug.Log("Not a valid spot");
             return;
         }
-        for (int i = 0; i < CastleScreen.whitePieceType.Count; i++)
+
+        if (CastleScreen.isWhiteTeam)
         {
-            if(i==index)
-                continue;
-            if (CastleScreen.whitePieceActive[i])
+            for (int i = 0; i < CastleScreen.whitePieceType.Count; i++)
             {
-                if (CastleScreen.whitePieceStartingX[i] == desiredX &&
-                    CastleScreen.whitePieceStartingY[i] == desiredY)
+                if (i == index)
+                    continue;
+                if (CastleScreen.whitePieceActive[i])
                 {
-                    spotAlreadyTaken = true;
-                    Debug.Log("Spot already taken");
-                    break;
+                    if (CastleScreen.whitePieceStartingX[i] == desiredX &&
+                        CastleScreen.whitePieceStartingY[i] == desiredY)
+                    {
+                        int tempX = CastleScreen.whitePieceStartingX[index];
+                        int tempY = CastleScreen.whitePieceStartingY[index];
+                        Debug.Log("Swapped two piece locations");
+                        break;
+                    }
                 }
             }
-        }
 
-        if (!spotAlreadyTaken)
-        {
             Debug.Log("Spot all clear");
             CastleScreen.whitePieceStartingX[index] = desiredX;
             CastleScreen.whitePieceStartingY[index] = desiredY;
+        }
+        else
+        {
+            for (int i = 0; i < CastleScreen.blackPieceType.Count; i++)
+            {
+                if (i == index)
+                    continue;
+                if (CastleScreen.blackPieceActive[i])
+                {
+                    if (CastleScreen.blackPieceStartingX[i] == desiredX &&
+                        CastleScreen.blackPieceStartingY[i] == desiredY)
+                    {
+                        int tempX = CastleScreen.blackPieceStartingX[index];
+                        int tempY = CastleScreen.blackPieceStartingY[index];
+                        Debug.Log("Swapped two piece locations");
+                        break;
+                    }
+                }
+            }
+
+            Debug.Log("Spot all clear");
+            CastleScreen.blackPieceStartingX[index] = desiredX;
+            CastleScreen.blackPieceStartingY[index] = desiredY;
         }
     }
 }

@@ -5,12 +5,20 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CastleScreen : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private GameObject currentSquadDisplay;
+    [SerializeField] private TMP_InputField slotName;
+    [SerializeField] private TextMeshProUGUI slotNameButtonText;
+    [SerializeField] private TextMeshProUGUI playerNameButtonText;
     [SerializeField] private LoadoutManager loadoutScreen;
     [SerializeField] private UpgradeManager upgradeScreen;
+
+    private string saveSlotName;
+
+    public static bool isWhiteTeam = true;
 
     public static List<int> whitePieceType;
     public static List<int> whitePieceMaterial;
@@ -20,32 +28,47 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
     public static List<bool> whitePieceActive;
     public static List<int> whitePieceStartingX;
     public static List<int> whitePieceStartingY;
-    private static int whiteTeamMaxSquad;
+    public static int whiteTeamMaxSquad;
 
-    private int blackTeamMaxWidth;
-    private int blackTeamMaxHeight;
-    private int blackTeamMaxSquad;
+    public static List<int> blackPieceType;
+    public static List<int> blackPieceMaterial;
+    public static int blackTeamMaxHeight;
+    public static int blackTeamMaxWidth;
+    public static List<string> blackPieceAbilities;
+    public static List<bool> blackPieceActive;
+    public static List<int> blackPieceStartingX;
+    public static List<int> blackPieceStartingY;
+    public static int blackTeamMaxSquad;
 
     public void LoadData(GameData data)
     {
+        this.saveSlotName = data.saveSlotName;
 
         whitePieceType = data.whitePieceType;
         whitePieceMaterial = data.whitePieceMaterial;
 
         whiteTeamMaxWidth = data.whiteTeamMaxWidth;
         whiteTeamMaxHeight = data.whiteTeamMaxHeight;
-        whiteTeamMaxSquad = data.whiteTeamMaxWidth * data.blackTeamMaxHeight;
+        whiteTeamMaxSquad = data.whiteTeamMaxSquad;
 
-        this.blackTeamMaxWidth = data.blackTeamMaxWidth;
-        this.blackTeamMaxHeight = data.blackTeamMaxHeight;
-        this.blackTeamMaxSquad = data.blackTeamMaxWidth * data.blackTeamMaxHeight;
-        Debug.Log("Loaded!");
-        UpdateCurrentSquadDisplay();
+        blackPieceType = data.blackPieceType;
+        blackPieceMaterial = data.blackPieceMaterial;
+
+        blackTeamMaxWidth = data.blackTeamMaxWidth;
+        blackTeamMaxHeight = data.blackTeamMaxHeight;
+        blackTeamMaxSquad = data.blackTeamMaxSquad;
+
+        slotName.text = saveSlotName;
+        slotNameButtonText.text = saveSlotName;
+        
+        Debug.Log("Loaded from Castlescreen!");
     }
 
     public void SaveData(GameData data)
     {
         data.lastPlayed = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
+        data.saveSlotName = saveSlotName;
+
 
         data.whitePieceType = whitePieceType;
         data.whitePieceMaterial = whitePieceMaterial;
@@ -54,9 +77,12 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
         data.whiteTeamMaxHeight = whiteTeamMaxHeight;
         data.whiteTeamMaxSquad = whiteTeamMaxWidth * whiteTeamMaxHeight;
 
-        data.blackTeamMaxWidth = this.blackTeamMaxWidth;
-        data.blackTeamMaxHeight = this.blackTeamMaxHeight;
-        data.blackTeamMaxSquad = this.blackTeamMaxWidth * this.blackTeamMaxWidth;
+        data.blackPieceType = blackPieceType;
+        data.blackPieceMaterial = blackPieceMaterial;
+
+        data.blackTeamMaxWidth = blackTeamMaxWidth;
+        data.blackTeamMaxHeight = blackTeamMaxHeight;
+        data.blackTeamMaxSquad = blackTeamMaxWidth * blackTeamMaxHeight;
         Debug.Log("Saved from CastleScreen Script!");
     }
 
@@ -65,12 +91,35 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
     {
         loadoutScreen.DeactivateMenu();
         upgradeScreen.DeactivateMenu();
+        playerNameButtonText.text = "Player 1's Castle";
+        UpdateCurrentSquadDisplay();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void SwapCastles()
+    {
+        isWhiteTeam = !isWhiteTeam;
+        int playerNum;
+        if (isWhiteTeam)
+            playerNum = 1;
+        else
+            playerNum = 2;
+        playerNameButtonText.text = "Player " + playerNum + "'s Castle";
+        UpdateCurrentSquadDisplay();
+    }
+
+    public void ChangeSlotName()
+    {
+        if (slotName.text == String.Empty)
+            slotName.text = "An Unnnamed Slot";
+        saveSlotName = slotName.text;
+        slotNameButtonText.text = saveSlotName;
+        DataPersistenceManager.instance.SaveGame();
     }
 
     public void LoadScene(int sceneNum)
@@ -88,6 +137,13 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
     public void UpdateCurrentSquadDisplay()
     {
         currentSquadDisplay.GetComponent<TextMeshProUGUI>().text = "gay";
-        currentSquadDisplay.GetComponent<TextMeshProUGUI>().text = "Current Squad (" + whitePieceType.Count + " of " + whiteTeamMaxSquad + ")";
+        if (isWhiteTeam)
+        {
+            currentSquadDisplay.GetComponent<TextMeshProUGUI>().text = "Current Squad (" + whitePieceType.Count + " of " + whiteTeamMaxSquad + ")";
+        }
+        else
+        {
+            currentSquadDisplay.GetComponent<TextMeshProUGUI>().text = "Current Squad (" + blackPieceType.Count + " of " + blackTeamMaxSquad + ")";
+        }
     }
 }

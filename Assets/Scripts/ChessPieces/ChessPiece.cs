@@ -34,6 +34,8 @@ public enum ChessPieceMaterial
     public ChessPieceMaterial material;
     public bool hasKingInCheck = false;
 
+    public string abilities = "";
+
     // Abilities
     public bool abilitySidestep = false;
     public bool abilityBackpedal = false;

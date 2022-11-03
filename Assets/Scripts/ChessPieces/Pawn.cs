@@ -46,12 +46,30 @@ public class Pawn : ChessPiece
 
         // Sidestep
 
-        // Left
-        if (abilitySidestep == true && board[currentX-1, currentY] == null)
-            r.Add(new Vector2Int(currentX-1, currentY));
-        // Right
-        if (abilitySidestep == true && board[currentX + 1, currentY] == null)
-            r.Add(new Vector2Int(currentX + 1, currentY));
+        if (abilitySidestep == true)
+        {
+            // Left
+            if (currentX - 1 >= 0 && currentY < tileCountY)
+                if (abilitySidestep == true && board[currentX - 1, currentY] == null)
+                    r.Add(new Vector2Int(currentX - 1, currentY));
+
+            // Right
+            if (currentX + 1 < tileCountX && currentY < tileCountY)
+                if (abilitySidestep == true && board[currentX + 1, currentY] == null)
+                    r.Add(new Vector2Int(currentX + 1, currentY));
+        }
+
+
+
+        // Backpedal
+        if (abilityBackpedal == true)
+        {
+            if (currentX < tileCountX && currentY - (1 * direction) >= 0 && currentY - (1 * direction) < tileCountY)
+                if (board[currentX, currentY - (1 * direction)] == null)
+                    r.Add(new Vector2Int(currentX, currentY - (1 * direction)));
+        }
+        
+
 
         return r;
     }

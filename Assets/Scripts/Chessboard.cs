@@ -334,12 +334,12 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             if ((startingX + whitePieceStartingX[i]) <= tileCountX && whitePieceStartingY[i] <= tileCountY)
             {
                 whitePieceActualIndex.Add(i);
-                chessPieces[startingX + whitePieceStartingX[i], whitePieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)whitePieceType[i], 0, whitePieceMaterial[i]);
+                chessPieces[startingX + whitePieceStartingX[i], whitePieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)whitePieceType[i], 0, whitePieceAbilities[i], whitePieceMaterial[i]);
             }
             else if ((ChessPieceType)whitePieceType[i] == ChessPieceType.King)
             {
                 whitePieceActualIndex.Add(i);
-                chessPieces[startingX + 0, 0] = SpawnSinglePiece(i, (ChessPieceType)whitePieceType[i], 0, whitePieceMaterial[i]);
+                chessPieces[startingX + 0, 0] = SpawnSinglePiece(i, (ChessPieceType)whitePieceType[i], 0, whitePieceAbilities[i], whitePieceMaterial[i]);
             }
             
         }
@@ -352,18 +352,18 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                 blackPieceActualIndex.Add(i);
                 chessPieces[(tileCountX - 1) - (startingX + blackPieceStartingX[i]),
                     (tileCountY - 1) - blackPieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)blackPieceType[i],
-                    1, blackPieceMaterial[i]);
+                    1, blackPieceAbilities[i], blackPieceMaterial[i]);
             }
             else if ((ChessPieceType)blackPieceType[i] == ChessPieceType.King)
             {
                 blackPieceActualIndex.Add(i);
                 chessPieces[(tileCountX - 1) - (startingX + 0),
                     (tileCountY - 1) - 0] = SpawnSinglePiece(i, (ChessPieceType)blackPieceType[i],
-                    1, blackPieceMaterial[i]);
+                    1, blackPieceAbilities[i], blackPieceMaterial[i]);
             }
         }
     }
-    private ChessPiece SpawnSinglePiece(int index, ChessPieceType type, int team, int material = 0)
+    private ChessPiece SpawnSinglePiece(int index, ChessPieceType type, int team, string abilities, int material = 0)
     {
         ChessPiece piece = Instantiate(prefabs[(int)type - 1], transform).GetComponent<ChessPiece>();
 
@@ -371,6 +371,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         piece.type = type;
         piece.team = team;
         piece.material = (ChessPieceMaterial) material;
+        piece.abilities = abilities;
 
         Material[] teamMaterial;
 
@@ -403,6 +404,12 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             ChessPieceType.King => teamMaterial[6],
             _ => teamMaterial[0]
         };
+
+        if (piece.abilities.Contains("Sidestep") && piece.type == ChessPieceType.Pawn)
+            piece.abilitySidestep = true;
+
+        if (piece.abilities.Contains("Backpedal") && piece.type == ChessPieceType.Pawn)
+            piece.abilityBackpedal = true;
 
         return piece;
     }
@@ -570,7 +577,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             {
                 if(targetPawn.team == 0 && lastMove[1].y == tileCountY - 1)
                 {
-                    ChessPiece newQueen = SpawnSinglePiece(targetPawn.index, ChessPieceType.Queen, 0, (int)targetPawn.material);
+                    ChessPiece newQueen = SpawnSinglePiece(targetPawn.index, ChessPieceType.Queen, 0, targetPawn.abilities, (int)targetPawn.material);
                     newQueen.transform.position = chessPieces[lastMove[1].x, lastMove[1].y].transform.position;
                     Destroy(chessPieces[lastMove[1].x, lastMove[1].y].gameObject);
                     chessPieces[lastMove[1].x, lastMove[1].y] = newQueen;
@@ -578,7 +585,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                 }
                 if (targetPawn.team == 1 && lastMove[1].y == 0)
                 {
-                    ChessPiece newQueen = SpawnSinglePiece(targetPawn.index, ChessPieceType.Queen, 1, (int)targetPawn.material);
+                    ChessPiece newQueen = SpawnSinglePiece(targetPawn.index, ChessPieceType.Queen, 1, targetPawn.abilities, (int)targetPawn.material);
                     newQueen.transform.position = chessPieces[lastMove[1].x, lastMove[1].y].transform.position;
                     Destroy(chessPieces[lastMove[1].x, lastMove[1].y].gameObject);
                     chessPieces[lastMove[1].x, lastMove[1].y] = newQueen;

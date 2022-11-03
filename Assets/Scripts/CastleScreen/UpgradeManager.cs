@@ -16,12 +16,25 @@ public class UpgradeManager : MonoBehaviour
             GameObject.Destroy(pieceDisplay.transform.GetChild(i).gameObject);
         }
 
-        for (var index = 0; index < CastleScreen.whitePieceType.Count; index++)
+        if (CastleScreen.isWhiteTeam)
         {
-            Instantiate(loadoutTile, pieceDisplay.transform);
-            pieceDisplay.transform.GetChild(pieceDisplay.transform.childCount - 1).gameObject.GetComponent<UpgradePieceManager>().SetIndex(index);
-            pieceDisplay.transform.GetChild(pieceDisplay.transform.childCount - 1).gameObject.GetComponent<Image>().color = (index % 2 == 0) ? new Color32(13, 13, 13, 255) : new Color32(10, 10, 10, 255);
+            for (var index = 0; index < CastleScreen.whitePieceType.Count; index++)
+            {
+                Instantiate(loadoutTile, pieceDisplay.transform);
+                pieceDisplay.transform.GetChild(pieceDisplay.transform.childCount - 1).gameObject.GetComponent<UpgradePieceManager>().SetIndex(index);
+                pieceDisplay.transform.GetChild(pieceDisplay.transform.childCount - 1).gameObject.GetComponent<Image>().color = (index % 2 == 0) ? new Color32(15, 15, 15, 255) : new Color32(10, 10, 10, 255);
+            }
         }
+        else
+        {
+            for (var index = 0; index < CastleScreen.blackPieceType.Count; index++)
+            {
+                Instantiate(loadoutTile, pieceDisplay.transform);
+                pieceDisplay.transform.GetChild(pieceDisplay.transform.childCount - 1).gameObject.GetComponent<UpgradePieceManager>().SetIndex(index);
+                pieceDisplay.transform.GetChild(pieceDisplay.transform.childCount - 1).gameObject.GetComponent<Image>().color = (index % 2 == 0) ? new Color32(15, 15, 15, 255) : new Color32(10, 10, 10, 255);
+            }
+        }
+        
     }
 
     public void ActivateMenu()
