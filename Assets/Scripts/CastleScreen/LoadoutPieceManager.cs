@@ -17,7 +17,7 @@ public class LoadoutPieceManager : MonoBehaviour
         if (CastleScreen.isWhiteTeam)
         {
             // Fill X, Y input fields with correct values
-            xInput.text = "" + CastleScreen.whitePieceStartingX[index];
+            xInput.text = CastleScreen.whitePieceStartingX[index].ToString();
             yInput.text = "" + CastleScreen.whitePieceStartingY[index];
 
             // Generate Type of Piece

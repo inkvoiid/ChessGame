@@ -11,8 +11,6 @@ public class LoadoutManager : MonoBehaviour
 
     private void SetupLoadout()
     {
-        if(CastleScreen.whitePieceStartingX == null) return;
-        Debug.Log(CastleScreen.whitePieceStartingX.Count);
         for (int i = 0; i < pieceDisplay.transform.childCount; i++)
         {
             GameObject.Destroy(pieceDisplay.transform.GetChild(i).gameObject);
@@ -20,7 +18,7 @@ public class LoadoutManager : MonoBehaviour
 
         if (CastleScreen.isWhiteTeam)
         {
-            for (var index = 0; index < CastleScreen.whitePieceType.Count; index++)
+            for (int index = 0; index < CastleScreen.whitePieceType.Count; index++)
             {
                 Instantiate(loadoutTile, pieceDisplay.transform);
                 pieceDisplay.transform.GetChild(pieceDisplay.transform.childCount - 1).gameObject.GetComponent<LoadoutPieceManager>().SetIndex(index);
@@ -40,6 +38,7 @@ public class LoadoutManager : MonoBehaviour
 
     public void ActivateMenu()
     {
+        DataPersistenceManager.instance.LoadGame();
         this.gameObject.SetActive(true);
         SetupLoadout();
     }

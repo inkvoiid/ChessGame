@@ -18,6 +18,7 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
 
     private string saveSlotName;
 
+
     public static bool isWhiteTeam = true;
 
     public static List<int> whitePieceType;
@@ -46,16 +47,22 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
 
         whitePieceType = data.whitePieceType;
         whitePieceMaterial = data.whitePieceMaterial;
-
-        whiteTeamMaxWidth = data.whiteTeamMaxWidth;
         whiteTeamMaxHeight = data.whiteTeamMaxHeight;
+        whiteTeamMaxWidth = data.whiteTeamMaxWidth;
+        whitePieceAbilities = data.whitePieceAbilities;
+        whitePieceActive = data.whitePieceActive;
+        whitePieceStartingX = data.whitePieceStartingX;
+        whitePieceStartingY = data.whitePieceStartingY;
         whiteTeamMaxSquad = data.whiteTeamMaxSquad;
 
         blackPieceType = data.blackPieceType;
         blackPieceMaterial = data.blackPieceMaterial;
-
-        blackTeamMaxWidth = data.blackTeamMaxWidth;
         blackTeamMaxHeight = data.blackTeamMaxHeight;
+        blackTeamMaxWidth = data.blackTeamMaxWidth;
+        blackPieceAbilities = data.blackPieceAbilities;
+        blackPieceActive = data.blackPieceActive;
+        blackPieceStartingX = data.blackPieceStartingX;
+        blackPieceStartingY = data.blackPieceStartingY;
         blackTeamMaxSquad = data.blackTeamMaxSquad;
 
         slotName.text = saveSlotName;
@@ -72,16 +79,22 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
 
         data.whitePieceType = whitePieceType;
         data.whitePieceMaterial = whitePieceMaterial;
-
-        data.whiteTeamMaxWidth = whiteTeamMaxWidth;
         data.whiteTeamMaxHeight = whiteTeamMaxHeight;
+        data.whiteTeamMaxWidth = whiteTeamMaxWidth;
+        data.blackPieceAbilities = whitePieceAbilities;
+        data.whitePieceActive = whitePieceActive;
+        data.whitePieceStartingX = whitePieceStartingX;
+        data.whitePieceStartingY = whitePieceStartingY;
         data.whiteTeamMaxSquad = whiteTeamMaxWidth * whiteTeamMaxHeight;
 
         data.blackPieceType = blackPieceType;
         data.blackPieceMaterial = blackPieceMaterial;
-
-        data.blackTeamMaxWidth = blackTeamMaxWidth;
         data.blackTeamMaxHeight = blackTeamMaxHeight;
+        data.blackTeamMaxWidth = blackTeamMaxWidth;
+        data.blackPieceAbilities = blackPieceAbilities;
+        data.blackPieceActive = blackPieceActive;
+        data.blackPieceStartingX = blackPieceStartingX;
+        data.blackPieceStartingY = blackPieceStartingY;
         data.blackTeamMaxSquad = blackTeamMaxWidth * blackTeamMaxHeight;
         Debug.Log("Saved from CastleScreen Script!");
     }
