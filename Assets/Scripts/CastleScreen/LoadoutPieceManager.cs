@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadoutPieceManager : MonoBehaviour
 {
     private int index;
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI abilities;
+    [SerializeField] private Toggle isActive;
     [SerializeField] private TMP_InputField xInput;
     [SerializeField] private TMP_InputField yInput;
     public void SetIndex(int ind)
@@ -42,7 +44,7 @@ public class LoadoutPieceManager : MonoBehaviour
             };
 
             title.text = material + " " + type;
-
+            
             abilities.text = CastleScreen.whitePieceAbilities[index];
         }
         else
@@ -76,6 +78,8 @@ public class LoadoutPieceManager : MonoBehaviour
 
             abilities.text = CastleScreen.blackPieceAbilities[index];
         }
+
+        SetInputFieldActivity();
     }
 
     public void ResetPieceLocation()
@@ -91,6 +95,52 @@ public class LoadoutPieceManager : MonoBehaviour
             // Fill X, Y input fields with correct values
             xInput.text = "" + CastleScreen.blackPieceStartingX[index];
             yInput.text = "" + CastleScreen.blackPieceStartingY[index];
+        }
+    }
+
+    public void SetInputFieldActivity()
+    {
+        if (CastleScreen.isWhiteTeam)
+        {
+            isActive.isOn = CastleScreen.whitePieceActive[index];
+        }
+        else
+        {
+            isActive.isOn = CastleScreen.blackPieceActive[index];
+        }
+
+        if (isActive.isOn)
+        {
+            xInput.interactable = true;
+            yInput.interactable = true;
+        }
+        else
+        {
+            xInput.interactable = false;
+            yInput.interactable = false;
+        }
+    }
+
+    public void ChangeInputFieldActivity()
+    {
+        if (CastleScreen.isWhiteTeam)
+        {
+            CastleScreen.whitePieceActive[index] = isActive.isOn;
+        }
+        else
+        {
+            CastleScreen.blackPieceActive[index] = isActive.isOn;
+        }
+
+        if (isActive.isOn)
+        {
+            xInput.interactable = true;
+            yInput.interactable = true;
+        }
+        else
+        {
+            xInput.interactable = false;
+            yInput.interactable = false;
         }
     }
 

@@ -331,35 +331,42 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         // White Team
         for (int i = 0; i < whitePieceType.Count; i++)
         {
-            if ((startingX + whitePieceStartingX[i]) <= tileCountX && whitePieceStartingY[i] <= tileCountY)
+            if (whitePieceActive[i])
             {
-                whitePieceActualIndex.Add(i);
-                chessPieces[startingX + whitePieceStartingX[i], whitePieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)whitePieceType[i], 0, whitePieceAbilities[i], whitePieceMaterial[i]);
+                if ((startingX + whitePieceStartingX[i]) <= tileCountX && whitePieceStartingY[i] <= tileCountY)
+                {
+                    whitePieceActualIndex.Add(i);
+                    chessPieces[startingX + whitePieceStartingX[i], whitePieceStartingY[i]] = SpawnSinglePiece(i,
+                        (ChessPieceType)whitePieceType[i], 0, whitePieceAbilities[i], whitePieceMaterial[i]);
+                }
+                else if ((ChessPieceType)whitePieceType[i] == ChessPieceType.King)
+                {
+                    whitePieceActualIndex.Add(i);
+                    chessPieces[startingX + 0, 0] = SpawnSinglePiece(i, (ChessPieceType)whitePieceType[i], 0,
+                        whitePieceAbilities[i], whitePieceMaterial[i]);
+                }
             }
-            else if ((ChessPieceType)whitePieceType[i] == ChessPieceType.King)
-            {
-                whitePieceActualIndex.Add(i);
-                chessPieces[startingX + 0, 0] = SpawnSinglePiece(i, (ChessPieceType)whitePieceType[i], 0, whitePieceAbilities[i], whitePieceMaterial[i]);
-            }
-            
         }
 
         // Black Team
         for (int i = 0; i < blackPieceType.Count; i++)
         {
-            if ((startingX + blackPieceStartingX[i]) <= tileCountX && blackPieceStartingY[i] <= tileCountY)
+            if (blackPieceActive[i])
             {
-                blackPieceActualIndex.Add(i);
-                chessPieces[(tileCountX - 1) - (startingX + blackPieceStartingX[i]),
-                    (tileCountY - 1) - blackPieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)blackPieceType[i],
-                    1, blackPieceAbilities[i], blackPieceMaterial[i]);
-            }
-            else if ((ChessPieceType)blackPieceType[i] == ChessPieceType.King)
-            {
-                blackPieceActualIndex.Add(i);
-                chessPieces[(tileCountX - 1) - (startingX + 0),
-                    (tileCountY - 1) - 0] = SpawnSinglePiece(i, (ChessPieceType)blackPieceType[i],
-                    1, blackPieceAbilities[i], blackPieceMaterial[i]);
+                if ((startingX + blackPieceStartingX[i]) <= tileCountX && blackPieceStartingY[i] <= tileCountY)
+                {
+                    blackPieceActualIndex.Add(i);
+                    chessPieces[(tileCountX - 1) - (startingX + blackPieceStartingX[i]),
+                        (tileCountY - 1) - blackPieceStartingY[i]] = SpawnSinglePiece(i, (ChessPieceType)blackPieceType[i],
+                        1, blackPieceAbilities[i], blackPieceMaterial[i]);
+                }
+                else if ((ChessPieceType)blackPieceType[i] == ChessPieceType.King)
+                {
+                    blackPieceActualIndex.Add(i);
+                    chessPieces[(tileCountX - 1) - (startingX + 0),
+                        (tileCountY - 1) - 0] = SpawnSinglePiece(i, (ChessPieceType)blackPieceType[i],
+                        1, blackPieceAbilities[i], blackPieceMaterial[i]);
+                }
             }
         }
     }

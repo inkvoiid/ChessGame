@@ -67,7 +67,7 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
 
         slotName.text = saveSlotName;
         slotNameButtonText.text = saveSlotName;
-        
+
         Debug.Log("Loaded from Castlescreen!");
     }
 
