@@ -182,7 +182,6 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         {
             TogglePauseScreen();
         }
-
         RaycastHit info;
         Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out info, 100, LayerMask.GetMask("Chessboard Tile", "Chessboard Tile Hover", "Chessboard Tile Highlight")) && amPlaying == true)
@@ -239,6 +238,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                         abilities += "\nKnighted";
 
                     TooltipManager.instance.ShowTooltip(material + " " + type + " (" + hitPosition.x + ", " + hitPosition.y+")"+abilities);
+                    TooltipManager.instance.SetHealthBar((float)chessPieces[hitPosition.x, hitPosition.y].health / chessPieces[hitPosition.x, hitPosition.y].maxHealth);
                 }
                 else
                 {
@@ -297,6 +297,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         }
         else
         {
+            TooltipManager.instance.HideTooltip();
             if (currentHover != -Vector2Int.one)
             {
                 tiles[currentHover.x, currentHover.y].layer = (ContainsValidMove(ref availableMoves, currentHover)) ? LayerMask.NameToLayer("Chessboard Tile Highlight") : LayerMask.NameToLayer("Chessboard Tile");
@@ -430,6 +431,10 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         piece.team = team;
         piece.material = (ChessPieceMaterial) material;
         piece.abilities = abilities;
+
+        piece.maxHealth = material;
+        piece.health = piece.maxHealth;
+        piece.attackDmg = material;
 
         Material[] teamMaterial;
 
@@ -605,29 +610,38 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             {
                 if(myPawn.currentY == enemyPawn.currentY - 1 || myPawn.currentY == enemyPawn.currentY + 1)
                 {
-                    myPawn.PlayTakePieceSound();
-                    if (enemyPawn.team == 0)
+                    if ((enemyPawn.health - enemyPawn.attackDmg) <= 0)
                     {
-                        deadWhitePieces.Add(enemyPawn);
-                        enemyPawn.SetScale(Vector3.one * deathSize);
-                        enemyPawn.SetPosition(
-                            new Vector3(tileCountX * tileSize, yOffset, -1 * tileSize)
-                            - bounds
-                            + new Vector3(tileSize / 2, 0, tileSize / 2)
-                            + (Vector3.forward * deathSpacing) * deadWhitePieces.Count);
+
+                        myPawn.PlayTakePieceSound();
+                        if (enemyPawn.team == 0)
+                        {
+                            deadWhitePieces.Add(enemyPawn);
+                            enemyPawn.SetScale(Vector3.one * deathSize);
+                            enemyPawn.SetPosition(
+                                new Vector3(tileCountX * tileSize, yOffset, -1 * tileSize)
+                                - bounds
+                                + new Vector3(tileSize / 2, 0, tileSize / 2)
+                                + (Vector3.forward * deathSpacing) * deadWhitePieces.Count);
+                        }
+                        else
+                        {
+                            deadBlackPieces.Add(enemyPawn);
+                            enemyPawn.SetScale(Vector3.one * deathSize);
+                            enemyPawn.SetPosition(
+                                new Vector3(-1 * tileSize, yOffset, tileCountX * tileSize)
+                                - bounds
+                                + new Vector3(tileSize / 2, 0, tileSize / 2)
+                                + (Vector3.back * deathSpacing) * deadBlackPieces.Count);
+                        }
+
+                        chessPieces[enemyPawn.currentX, enemyPawn.currentY] = null;
+                        RemovePieceFromTeam(enemyPawn);
                     }
                     else
                     {
-                        deadBlackPieces.Add(enemyPawn);
-                        enemyPawn.SetScale(Vector3.one * deathSize);
-                        enemyPawn.SetPosition(
-                            new Vector3(-1 * tileSize, yOffset, tileCountX * tileSize)
-                            - bounds
-                            + new Vector3(tileSize / 2, 0, tileSize / 2)
-                            + (Vector3.back * deathSpacing) * deadBlackPieces.Count);
+                        enemyPawn.health -= myPawn.attackDmg;
                     }
-                    chessPieces[enemyPawn.currentX, enemyPawn.currentY] = null;
-                    RemovePieceFromTeam(enemyPawn);
                 }
             }
         }
@@ -1031,36 +1045,45 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             }
 
             piece.PlayTakePieceSound();
-            
 
-                // If it's the enemy team
-            if (otherPiece.team == 0)
+            if ((otherPiece.health - piece.attackDmg) <= 0)
             {
-                if (otherPiece.type == ChessPieceType.King)
-                    Checkmate(1);
+                // If it's the enemy team
+                if (otherPiece.team == 0)
+                {
+                    if (otherPiece.type == ChessPieceType.King)
+                        Checkmate(1);
 
-                deadWhitePieces.Add(otherPiece);
-                otherPiece.SetScale(Vector3.one * deathSize);
-                otherPiece.SetPosition(
-                    new Vector3(tileCountX * tileSize, yOffset, -1 * tileSize)
-                    - bounds
-                    + new Vector3(tileSize / 2, 0, tileSize / 2)
-                    + (Vector3.forward * deathSpacing) * deadWhitePieces.Count);
+                    deadWhitePieces.Add(otherPiece);
+                    otherPiece.SetScale(Vector3.one * deathSize);
+                    otherPiece.SetPosition(
+                        new Vector3(tileCountX * tileSize, yOffset, -1 * tileSize)
+                        - bounds
+                        + new Vector3(tileSize / 2, 0, tileSize / 2)
+                        + (Vector3.forward * deathSpacing) * deadWhitePieces.Count);
+                }
+                else
+                {
+                    if (otherPiece.type == ChessPieceType.King)
+                        Checkmate(0);
+
+                    deadBlackPieces.Add(otherPiece);
+                    otherPiece.SetScale(Vector3.one * deathSize);
+                    otherPiece.SetPosition(
+                        new Vector3(-1 * tileSize, yOffset, tileCountX * tileSize)
+                        - bounds
+                        + new Vector3(tileSize / 2, 0, tileSize / 2)
+                        + (Vector3.back * deathSpacing) * deadBlackPieces.Count);
+                }
+                RemovePieceFromTeam(otherPiece);
             }
             else
             {
-                if (otherPiece.type == ChessPieceType.King)
-                    Checkmate(0);
-
-                deadBlackPieces.Add(otherPiece);
-                otherPiece.SetScale(Vector3.one * deathSize);
-                otherPiece.SetPosition(
-                    new Vector3(-1 * tileSize, yOffset, tileCountX * tileSize)
-                    - bounds
-                    + new Vector3(tileSize / 2, 0, tileSize / 2)
-                    + (Vector3.back * deathSpacing) * deadBlackPieces.Count);
+                otherPiece.health -= piece.attackDmg;
+                NextTurn();
+                return false;
             }
-            RemovePieceFromTeam(otherPiece);
+                
         }
         else
         {

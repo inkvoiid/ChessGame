@@ -10,6 +10,8 @@ public class TooltipManager : MonoBehaviour
     public static TooltipManager instance;
 
     [SerializeField] private TextMeshProUGUI text;
+
+    [SerializeField] private Slider health;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -41,5 +43,10 @@ public class TooltipManager : MonoBehaviour
     {
         gameObject.SetActive(false);
         text.text = String.Empty;
+    }
+
+    public void SetHealthBar(float currentHealth)
+    {
+        health.value = currentHealth;
     }
 }

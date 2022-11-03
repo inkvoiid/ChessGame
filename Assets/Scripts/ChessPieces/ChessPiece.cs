@@ -34,6 +34,10 @@ public enum ChessPieceMaterial
     public ChessPieceMaterial material;
     public bool hasKingInCheck = false;
 
+    public int maxHealth;
+    public int health;
+    public int attackDmg;
+
     public string abilities = "";
 
     // Abilities
