@@ -176,7 +176,7 @@ public class UpgradePieceManager : MonoBehaviour
                 abilityButtons[1].gameObject.SetActive(true);
             }
 
-            if (CastleScreen.blackPieceType[index] == 6)
+            if (CastleScreen.blackPieceType[index] != 3)
             {
                 abilityButtons[2].gameObject.SetActive(true);
             }
