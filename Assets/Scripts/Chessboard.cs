@@ -380,6 +380,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         // White Team
         for (int i = 0; i < whitePieceType.Count; i++)
         {
+            if (whitePieceStartingX[i] < 0 || whitePieceStartingY[i] < 0) continue;
             if (whitePieceActive[i])
             {
                 if ((startingX + whitePieceStartingX[i]) <= tileCountX && whitePieceStartingY[i] <= tileCountY)
@@ -400,6 +401,7 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         // Black Team
         for (int i = 0; i < blackPieceType.Count; i++)
         {
+            if (blackPieceStartingX[i] < 0 || blackPieceStartingY[i] < 0) continue;
             if (blackPieceActive[i])
             {
                 if ((startingX + blackPieceStartingX[i]) <= tileCountX && blackPieceStartingY[i] <= tileCountY)

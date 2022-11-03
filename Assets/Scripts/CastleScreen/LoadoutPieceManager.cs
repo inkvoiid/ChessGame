@@ -43,7 +43,7 @@ public class LoadoutPieceManager : MonoBehaviour
                 5 => "Diamond",
                 _ => "Basic"
             };
-
+            
             if (CastleScreen.whitePieceType[index] == 6)
             {
                 CastleScreen.whitePieceActive[index] = true;

@@ -18,6 +18,7 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
     [SerializeField] private TextMeshProUGUI playerNameButtonText;
     [SerializeField] private LoadoutManager loadoutScreen;
     [SerializeField] private UpgradeManager upgradeScreen;
+    [SerializeField] private TrainUnitsManager trainUnitScreen;
 
     private string saveSlotName;
 
@@ -83,7 +84,7 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
         data.whitePieceMaterial = whitePieceMaterial;
         data.whiteTeamMaxHeight = whiteTeamMaxHeight;
         data.whiteTeamMaxWidth = whiteTeamMaxWidth;
-        data.blackPieceAbilities = whitePieceAbilities;
+        data.whitePieceAbilities = whitePieceAbilities;
         data.whitePieceActive = whitePieceActive;
         data.whitePieceStartingX = whitePieceStartingX;
         data.whitePieceStartingY = whitePieceStartingY;
@@ -111,6 +112,7 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
 
         loadoutScreen.DeactivateMenu();
         upgradeScreen.DeactivateMenu();
+        trainUnitScreen.DeactivateMenu();
         playerNameButtonText.text = "Player 1's Castle";
         UpdateCurrentSquadDisplay();
     }
