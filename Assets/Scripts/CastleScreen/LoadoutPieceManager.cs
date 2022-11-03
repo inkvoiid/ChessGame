@@ -171,6 +171,12 @@ public class LoadoutPieceManager : MonoBehaviour
 
         if (CastleScreen.isWhiteTeam)
         {
+            if (desiredX > CastleScreen.whiteTeamMaxWidth || desiredY > CastleScreen.whiteTeamMaxHeight)
+            {
+                xInput.text = "" + CastleScreen.whitePieceStartingX[index];
+                yInput.text = "" + CastleScreen.whitePieceStartingY[index];
+                return;
+            }
             for (int i = 0; i < CastleScreen.whitePieceType.Count; i++)
             {
                 if (i == index)
@@ -194,6 +200,12 @@ public class LoadoutPieceManager : MonoBehaviour
         }
         else
         {
+            if (desiredX > CastleScreen.blackTeamMaxWidth || desiredY > CastleScreen.blackTeamMaxHeight)
+            {
+                xInput.text = "" + CastleScreen.blackPieceStartingX[index];
+                yInput.text = "" + CastleScreen.blackPieceStartingY[index];
+                return;
+            }
             for (int i = 0; i < CastleScreen.blackPieceType.Count; i++)
             {
                 if (i == index)

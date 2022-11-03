@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,13 @@ public class LoadoutManager : MonoBehaviour
 {
     [SerializeField] private VerticalLayoutGroup pieceDisplay;
     [SerializeField] private GameObject loadoutTile;
+
+
+
+    [SerializeField] private TextMeshProUGUI maxX;
+    [SerializeField] private TextMeshProUGUI maxY;
+    [SerializeField] private Button increaseMaxX;
+    [SerializeField] private Button increaseMaxY;
 
 
     private void SetupLoadout()
@@ -18,6 +26,8 @@ public class LoadoutManager : MonoBehaviour
 
         if (CastleScreen.isWhiteTeam)
         {
+            maxX.text = "Max X: " + CastleScreen.whiteTeamMaxWidth;
+            maxY.text = "Max Y: " + CastleScreen.whiteTeamMaxHeight;
             for (int index = 0; index < CastleScreen.whitePieceType.Count; index++)
             {
                 Instantiate(loadoutTile, pieceDisplay.transform);
@@ -27,6 +37,8 @@ public class LoadoutManager : MonoBehaviour
         }
         else
         {
+            maxX.text = "Max X: " + CastleScreen.blackTeamMaxWidth;
+            maxY.text = "Max Y: " + CastleScreen.blackTeamMaxHeight;
             for (var index = 0; index < CastleScreen.blackPieceType.Count; index++)
             {
                 Instantiate(loadoutTile, pieceDisplay.transform);
@@ -47,5 +59,45 @@ public class LoadoutManager : MonoBehaviour
     {
         DataPersistenceManager.instance.SaveGame();
         this.gameObject.SetActive(false);
+    }
+    
+    public void IncreaseMaxX()
+    {
+        if (CastleScreen.isWhiteTeam)
+        {
+            if (CastleScreen.whiteTeamMaxWidth < 14)
+            {
+                CastleScreen.whiteTeamMaxWidth++;
+                maxX.text = "Max X: " + CastleScreen.whiteTeamMaxWidth;
+            }
+        }
+        else
+        {
+            if (CastleScreen.blackTeamMaxWidth < 14)
+            {
+                CastleScreen.blackTeamMaxWidth++;
+                maxX.text = "Max X: " + CastleScreen.blackTeamMaxWidth;
+            }
+        }
+    }
+
+    public void IncreaseMaxY()
+    {
+        if (CastleScreen.isWhiteTeam)
+        {
+            if (CastleScreen.whiteTeamMaxHeight < 4)
+            {
+                CastleScreen.whiteTeamMaxHeight++;
+                maxY.text = "Max Y: " + CastleScreen.whiteTeamMaxHeight;
+            }
+        }
+        else
+        {
+            if (CastleScreen.blackTeamMaxHeight < 4)
+            {
+                CastleScreen.blackTeamMaxHeight++;
+                maxY.text = "Max Y: " + CastleScreen.blackTeamMaxHeight;
+            }
+        }
     }
 }
