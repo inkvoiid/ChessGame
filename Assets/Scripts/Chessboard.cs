@@ -44,6 +44,9 @@ public class Chessboard : MonoBehaviour, IDataPersistence
     [SerializeField] private Material[] stoneWhiteMaterials;
     [SerializeField] private Material[] stoneBlackMaterials;
 
+    [SerializeField] private Material[] metalWhiteMaterials;
+    [SerializeField] private Material[] metalBlackMaterials;
+
     [SerializeField] private Material[] diamondWhiteMaterials;
     [SerializeField] private Material[] diamondBlackMaterials;
 
@@ -202,9 +205,55 @@ public class Chessboard : MonoBehaviour, IDataPersistence
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Chessboard Tile Hover");
             }
 
+            if (!Input.GetMouseButtonDown(0) && currentlyDragging == null)
+            {
+                if (chessPieces[hitPosition.x, hitPosition.y] != null)
+                {
+                    string type = (int)chessPieces[hitPosition.x, hitPosition.y].type switch
+                    {
+                        1 => "Pawn",
+                        2 => "Rook",
+                        3 => "Knight",
+                        4 => "Bishop",
+                        5 => "Queen",
+                        6 => "King",
+                        _ => "Unknown"
+                    };
+
+                    string material = (int)chessPieces[hitPosition.x, hitPosition.y].material switch
+                    {
+                        1 => "Glass",
+                        2 => "Ceramic",
+                        3 => "Stone",
+                        4 => "Metal",
+                        5 => "Diamond",
+                        _ => "Basic"
+                    };
+                    string abilities = "";
+
+                    if (chessPieces[hitPosition.x, hitPosition.y].abilitySidestep)
+                        abilities += "\nSidestep";
+                    if (chessPieces[hitPosition.x, hitPosition.y].abilityBackpedal)
+                        abilities += "\nBackpedal";
+                    if (chessPieces[hitPosition.x, hitPosition.y].abilityKnighted)
+                        abilities += "\nKnighted";
+
+                    TooltipManager.instance.ShowTooltip(material + " " + type + " (" + hitPosition.x + ", " + hitPosition.y+")"+abilities);
+                }
+                else
+                {
+                    TooltipManager.instance.HideTooltip();
+                }
+            }
+            else
+            {
+                TooltipManager.instance.HideTooltip();
+            }
+
             // If we press down on the mouse
             if (Input.GetMouseButtonDown(0))
             {
+                TooltipManager.instance.HideTooltip();
                 if (chessPieces[hitPosition.x, hitPosition.y] != null)
                 {
 
@@ -393,6 +442,9 @@ public class Chessboard : MonoBehaviour, IDataPersistence
             case ChessPieceMaterial.Stone:
                 teamMaterial = piece.team == 0 ? stoneWhiteMaterials : stoneBlackMaterials;
                 break;
+            case ChessPieceMaterial.Metal:
+                teamMaterial = piece.team == 0 ? metalWhiteMaterials : metalBlackMaterials;
+                break;
             case ChessPieceMaterial.Diamond:
                 teamMaterial = piece.team == 0 ? diamondWhiteMaterials : diamondBlackMaterials;
                 break;
@@ -417,6 +469,9 @@ public class Chessboard : MonoBehaviour, IDataPersistence
 
         if (piece.abilities.Contains("Backpedal") && piece.type == ChessPieceType.Pawn)
             piece.abilityBackpedal = true;
+
+        if (piece.abilities.Contains("Knighted") && piece.type != ChessPieceType.Knight)
+            piece.abilityKnighted = true;
 
         return piece;
     }
@@ -1084,7 +1139,10 @@ public class Chessboard : MonoBehaviour, IDataPersistence
         {
             pauseScreen.SetActive(!pauseScreen.activeInHierarchy);
             if (pauseScreen.activeInHierarchy == true)
+            {
+                TooltipManager.instance.HideTooltip();
                 bgMusic.GetComponent<AudioSource>().Pause();
+            }
             else
                 bgMusic.GetComponent<AudioSource>().Play();
             amPlaying = !amPlaying;

@@ -39,9 +39,16 @@ public class LoadoutPieceManager : MonoBehaviour
                 1 => "Glass",
                 2 => "Ceramic",
                 3 => "Stone",
-                4 => "Diamond",
+                4 => "Metal",
+                5 => "Diamond",
                 _ => "Basic"
             };
+
+            if (CastleScreen.whitePieceType[index] == 6)
+            {
+                CastleScreen.whitePieceActive[index] = true;
+                Destroy(isActive.gameObject);
+            }
 
             title.text = material + " " + type;
             
@@ -70,9 +77,16 @@ public class LoadoutPieceManager : MonoBehaviour
                 1 => "Glass",
                 2 => "Ceramic",
                 3 => "Stone",
-                4 => "Diamond",
+                4 => "Metal",
+                5 => "Diamond",
                 _ => "Basic"
             };
+
+            if (CastleScreen.blackPieceType[index] == 6)
+            {
+                CastleScreen.blackPieceActive[index] = true;
+                Destroy(isActive.gameObject);
+            }
 
             title.text = material + " " + type;
 

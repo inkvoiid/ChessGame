@@ -40,6 +40,8 @@ public enum ChessPieceMaterial
     public bool abilitySidestep = false;
     public bool abilityBackpedal = false;
 
+    public bool abilityKnighted = false;
+
     private Vector3 desiredPosition;
     private Vector3 desiredScale = Vector3.one;
 

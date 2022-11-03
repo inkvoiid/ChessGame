@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 public class CastleScreen : MonoBehaviour, IDataPersistence
 {
+    MusicController bgMusic;
+    [SerializeField] GameObject toggleSound;
+
     [SerializeField] private GameObject currentSquadDisplay;
     [SerializeField] private TMP_InputField slotName;
     [SerializeField] private TextMeshProUGUI slotNameButtonText;
@@ -76,7 +79,6 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
         data.lastPlayed = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
         data.saveSlotName = saveSlotName;
 
-
         data.whitePieceType = whitePieceType;
         data.whitePieceMaterial = whitePieceMaterial;
         data.whiteTeamMaxHeight = whiteTeamMaxHeight;
@@ -102,16 +104,15 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
+        bgMusic = GameObject.Find("Background Music").GetComponent<MusicController>();
+        bgMusic.RegisterSoundControl(toggleSound);
+        if (bgMusic.GetComponent<AudioSource>().isPlaying == false)
+            bgMusic.GetComponent<AudioSource>().Play();
+
         loadoutScreen.DeactivateMenu();
         upgradeScreen.DeactivateMenu();
         playerNameButtonText.text = "Player 1's Castle";
         UpdateCurrentSquadDisplay();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void SwapCastles()
@@ -137,6 +138,7 @@ public class CastleScreen : MonoBehaviour, IDataPersistence
 
     public void LoadScene(int sceneNum)
     {
+        DataPersistenceManager.instance.SaveGame();
         try
         {
             SceneManager.LoadSceneAsync(sceneNum);

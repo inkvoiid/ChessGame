@@ -44,7 +44,8 @@ public class UpgradePieceManager : MonoBehaviour
                 1 => "Glass",
                 2 => "Ceramic",
                 3 => "Stone",
-                4 => "Diamond",
+                4 => "Metal",
+                5 => "Diamond",
                 _ => "Basic"
             };
 
@@ -69,7 +70,8 @@ public class UpgradePieceManager : MonoBehaviour
                 1 => "Glass",
                 2 => "Ceramic",
                 3 => "Stone",
-                4 => "Diamond",
+                4 => "Metal",
+                5 => "Diamond",
                 _ => "Basic"
             };
 
@@ -99,12 +101,13 @@ public class UpgradePieceManager : MonoBehaviour
             {
                 1 => "Ceramic",
                 2 => "Stone",
-                3 => "Diamond",
+                3 => "Metal",
+                4 => "Diamond",
                 _ => "Glass"
             };
 
             upgradeButton.interactable = true;
-            if (CastleScreen.whitePieceMaterial[index] == 4)
+            if (CastleScreen.whitePieceMaterial[index] == 5)
             {
                 upgradeText = "Fully Upgraded!";
                 upgradeButton.interactable = false;
@@ -119,12 +122,13 @@ public class UpgradePieceManager : MonoBehaviour
             {
                 1 => "Ceramic",
                 2 => "Stone",
-                3 => "Diamond",
+                3 => "Metal",
+                4 => "Diamond",
                 _ => "Glass"
             };
 
             upgradeButton.interactable = true;
-            if (CastleScreen.blackPieceMaterial[index] == 4)
+            if (CastleScreen.blackPieceMaterial[index] == 5)
             {
                 upgradeText = "Fully Upgraded!";
                 upgradeButton.interactable = false;
@@ -151,6 +155,11 @@ public class UpgradePieceManager : MonoBehaviour
                 abilityButtons[0].gameObject.SetActive(true);
                 abilityButtons[1].gameObject.SetActive(true);
             }
+
+            if (CastleScreen.whitePieceType[index] != 3)
+            {
+                abilityButtons[2].gameObject.SetActive(true);
+            }
         }
         else
         {
@@ -166,6 +175,11 @@ public class UpgradePieceManager : MonoBehaviour
                 abilityButtons[0].gameObject.SetActive(true);
                 abilityButtons[1].gameObject.SetActive(true);
             }
+
+            if (CastleScreen.blackPieceType[index] == 6)
+            {
+                abilityButtons[2].gameObject.SetActive(true);
+            }
         }
         
     }
@@ -174,7 +188,7 @@ public class UpgradePieceManager : MonoBehaviour
     {
         if (CastleScreen.isWhiteTeam)
         {
-            if (CastleScreen.whitePieceMaterial[index] < 4)
+            if (CastleScreen.whitePieceMaterial[index] < 5)
             {
                 CastleScreen.whitePieceMaterial[index]++;
                 UpdateUpgradeButton();
@@ -183,7 +197,7 @@ public class UpgradePieceManager : MonoBehaviour
         }
         else
         {
-            if (CastleScreen.blackPieceMaterial[index] < 4)
+            if (CastleScreen.blackPieceMaterial[index] < 5)
             {
                 CastleScreen.blackPieceMaterial[index]++;
                 UpdateUpgradeButton();

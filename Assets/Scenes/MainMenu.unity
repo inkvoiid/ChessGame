@@ -1918,8 +1918,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 916bb88d2bdaaff42b94409135256036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageOn: {fileID: 21300000, guid: 48d5d0c4f7e75b641870a1a82383b491, type: 3}
-  imageOff: {fileID: 21300000, guid: fb4e6afd70b09f3449d113cba19dbe23, type: 3}
+  songs:
+  - {fileID: 8300000, guid: 45a395caf08cf9e4389042b28410f8d7, type: 3}
+  - {fileID: 8300000, guid: b970aad0fbb7ce3408947ce9b2a18885, type: 3}
+  - {fileID: 8300000, guid: 568ab356f9367fd4fb69272d9f77c9f6, type: 3}
+  - {fileID: 8300000, guid: 48048038383369c4984fb5702be12e79, type: 3}
+  - {fileID: 8300000, guid: d4c62a289979c1c4b9cf02aa5a3407de, type: 3}
+  - {fileID: 8300000, guid: 8fe94c6db991c6f4eb7477210c03f01e, type: 3}
+  - {fileID: 8300000, guid: ef1f0aeebe4978245bf76e78b1fd6e1a, type: 3}
+  - {fileID: 8300000, guid: 9a72d66ddb3c58c42964e8d8dc0e03af, type: 3}
+  - {fileID: 8300000, guid: c54988af3e5cbfd429c973b8b4586fdf, type: 3}
+  - {fileID: 8300000, guid: fde3edcc057793d4e8f13af6687bfbaa, type: 3}
 --- !u!82 &761650474
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1934,7 +1943,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.15
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

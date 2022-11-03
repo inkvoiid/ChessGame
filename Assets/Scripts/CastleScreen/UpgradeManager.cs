@@ -39,6 +39,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void ActivateMenu()
     {
+        DataPersistenceManager.instance.SaveGame();
         this.gameObject.SetActive(true);
         SetupUpgradeLoadout();
     }

@@ -101,7 +101,13 @@ MonoBehaviour:
   currentX: 0
   currentY: 0
   startingPos: {x: 0, y: 0}
+  index: 0
   type: 1
+  material: 0
+  hasKingInCheck: 0
+  abilities: 
+  abilitySidestep: 0
+  abilityBackpedal: 0
   moveSound: {fileID: 8300000, guid: fff06a38443d6754a9ebc57cf8466502, type: 3}
   takePieceSound: {fileID: 8300000, guid: 8fc8899a32e8d7d4fa9a94f732ba367f, type: 3}
   pickupSound: {fileID: 8300000, guid: 24a5d8c1c4091ef438c14208f60778f4, type: 3}

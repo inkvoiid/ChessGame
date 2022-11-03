@@ -7,9 +7,9 @@ public class MusicController : MonoBehaviour, IDataPersistence
 {
     static MusicController instance;
     private GameObject toggleSoundButton;
-
-    [SerializeField] private Sprite imageOn;
-    [SerializeField] private Sprite imageOff;
+    private int currentSong, previousSong = - 1;
+    private System.Random rand = new System.Random();
+    [SerializeField] private AudioClip[] songs = new AudioClip[10];
 
     private void Awake()
     {
@@ -21,6 +21,26 @@ public class MusicController : MonoBehaviour, IDataPersistence
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+        currentSong = rand.Next(0, songs.Length);
+        this.GetComponent<AudioSource>().clip = songs[currentSong];
+        previousSong = currentSong;
+    }
+
+    private void Update()
+    {
+        if (!transform.GetComponent<AudioSource>().isPlaying && transform.GetComponent<AudioSource>().time == 0.00)
+        {
+            do
+            {
+                currentSong = rand.Next(0, songs.Length);
+            } 
+            while (currentSong == previousSong);
+
+            this.GetComponent<AudioSource>().clip = songs[currentSong];
+            this.GetComponent<AudioSource>().Play();
+            previousSong = currentSong;
+
         }
     }
 

@@ -38,7 +38,7 @@ public class LoadoutManager : MonoBehaviour
 
     public void ActivateMenu()
     {
-        DataPersistenceManager.instance.LoadGame();
+        DataPersistenceManager.instance.SaveGame();
         this.gameObject.SetActive(true);
         SetupLoadout();
     }
