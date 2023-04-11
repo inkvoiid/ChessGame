@@ -1,11 +1,9 @@
 # And My Rook!
 A one computer, two player chess-type game. 
  
-A project for my second year doing a Diploma in Applied Infomation Technology
+A project for my second year doing a Degree in Applied Infomation Technology
 
-© VOIID Inc 2022
-
-*(No further updates have been planned for this game, as I have am burnt out from working on this for half a year)*
+© VOIID Inc 2023
  
 ## Setup
 - [Download the latest version](https://github.com/inkvoiid/ChessGame/releases/latest/download/andmyrook-release-v1.0.zip)
